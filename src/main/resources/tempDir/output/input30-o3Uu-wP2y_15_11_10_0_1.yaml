@@ -1,0 +1,174 @@
+ProcessNodes:
+- cost: 5
+  precision: 1.0
+  time: 3
+  nodeDescription: This is node A
+  nodeID: A
+- cost: 0
+  precision: 0.9
+  time: 6
+  nodeDescription: This is node B
+  nodeID: B
+- cost: 0
+  precision: 1.0
+  time: 2
+  nodeDescription: This is node C
+  nodeID: C
+- cost: 4
+  precision: 0.86
+  time: 3
+  nodeDescription: This is node D
+  nodeID: D
+- cost: 7
+  precision: 0.91
+  time: 4
+  nodeDescription: This is node D1
+  nodeID: D1
+- cost: 0
+  precision: 1.0
+  time: 4
+  nodeDescription: This is node E
+  nodeID: E
+- cost: 0
+  precision: 1.0
+  time: 3
+  nodeDescription: This is node F
+  nodeID: F
+- cost: 0
+  precision: 1.0
+  time: 5
+  nodeDescription: This is node G
+  nodeID: G
+- cost: 0
+  precision: 1.0
+  time: 4
+  nodeDescription: This is node H
+  nodeID: H
+- cost: 0
+  precision: 0.89
+  time: 2
+  nodeDescription: This is node I
+  nodeID: I
+- cost: 10
+  precision: 1.0
+  time: 5
+  nodeDescription: This is node J
+  nodeID: J
+- cost: 10
+  precision: 1.0
+  time: 7
+  nodeDescription: This is node J1
+  nodeID: J1
+- cost: 0
+  precision: 1.0
+  time: 4
+  nodeDescription: This is node K
+  nodeID: K
+- cost: 0
+  precision: 1.0
+  time: 0
+  nodeDescription: This is node L
+  nodeID: L
+Paths:
+- from: J1
+  to: C
+- from: D1
+  to: E
+- from: E
+  to: G
+- from: E
+  to: F
+- from: F
+  to: I
+- from: J1
+  to: G
+- from: H
+  to: I
+- from: I
+  to: K
+- from: C
+  to: D1
+- from: G
+  to: H
+- from: A
+  to: B
+- from: B
+  to: J1
+- from: K
+  to: L
+mapCode: |
+  flowchart LR
+  J1 --> C
+  D1 --> E
+  E --> G
+  E --> F
+  F --> I
+  J1 --> G
+  H --> I
+  I --> K
+  C --> D1
+  G --> H
+  A --> B
+  B --> J1
+  K --> L
+ConstraintConditions:
+- nodeID2: C
+  nodeID1: J
+  conditionID: BC
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between B and C
+- nodeID2: D1
+  nodeID1: D
+  conditionID: DD1
+  conditionType: SAME
+  conditionDescription: This is a constraint between D and D1
+- nodeID2: E
+  nodeID1: D
+  conditionID: CE
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between C and E
+- nodeID2: F
+  nodeID1: D
+  conditionID: DF
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between D and F
+- nodeID2: F
+  nodeID1: E
+  conditionID: EF
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between E and F
+- nodeID2: G
+  nodeID1: J
+  conditionID: BG
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between B and G
+- nodeID2: G
+  nodeID1: E
+  conditionID: EH
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between E and H
+- nodeID2: I
+  nodeID1: F
+  conditionID: FI
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between F and I
+- nodeID2: I
+  nodeID1: H
+  conditionID: HI
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between H and I
+- nodeID2: J1
+  nodeID1: J
+  conditionID: JJ1
+  conditionType: SAME
+  conditionDescription: This is a constraint between J and J1
+- nodeID2: K
+  nodeID1: I
+  conditionID: IK
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between I and K
+- nodeID2: K
+  nodeID1: J
+  conditionID: JK
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint between J and K

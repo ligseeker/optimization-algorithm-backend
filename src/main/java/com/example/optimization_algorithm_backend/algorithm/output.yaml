@@ -1,0 +1,478 @@
+Equipments:
+- nodes:
+  - Ab
+  - Bb
+  - Cb
+  - Db
+  - Eb
+  - Fb
+  color: '#ffffff'
+  imagePath: ''
+  name: equipment1
+  description: This is an equipment
+- nodes:
+  - Gb
+  - Hb
+  - Ib
+  - Jb
+  color: '#ffffff'
+  imagePath: ''
+  name: equipment2
+  description: This is an equipment
+- nodes: []
+  color: '#ffffff'
+  imagePath: ''
+  name: equipment3
+  description: This is an equipment1
+ProcessNodes:
+- cost: 5
+  precision: 1.0
+  equipmentName: equipment1
+  time: 3
+  nodeDescription: This is node Ab
+  nodeID: Ab
+- cost: 4
+  precision: 0.94
+  equipmentName: equipment1
+  time: 2
+  nodeDescription: This is node Bb
+  nodeID: Bb
+- cost: 2
+  precision: 0.9
+  equipmentName: ''
+  time: 2
+  nodeDescription: This is node Ah
+  nodeID: Ah
+- cost: 0
+  precision: 1.0
+  equipmentName: equipment1
+  time: 5
+  nodeDescription: This is node Cb
+  nodeID: Cb
+- cost: 2
+  precision: 0.9
+  equipmentName: equipment1
+  time: 3
+  nodeDescription: This is node Db
+  nodeID: Db
+- cost: 1
+  precision: 0.98
+  equipmentName: ''
+  time: 3
+  nodeDescription: This is node Bh
+  nodeID: Bh
+- cost: 0
+  precision: 1.0
+  equipmentName: equipment1
+  time: 4
+  nodeDescription: This is node Eb
+  nodeID: Eb
+- cost: 0
+  precision: 1.0
+  equipmentName: equipment1
+  time: 3
+  nodeDescription: This is node Fb
+  nodeID: Fb
+- cost: 0
+  precision: 1.0
+  equipmentName: equipment2
+  time: 3
+  nodeDescription: This is node Gb
+  nodeID: Gb
+- cost: 0
+  precision: 1.0
+  equipmentName: equipment2
+  time: 3
+  nodeDescription: This is node Hb
+  nodeID: Hb
+- cost: 0
+  precision: 0.92
+  equipmentName: equipment2
+  time: 2
+  nodeDescription: This is node Ib
+  nodeID: Ib
+- cost: 6
+  precision: 0.98
+  equipmentName: ''
+  time: 2
+  nodeDescription: This is node Ib
+  nodeID: Ib
+- cost: 4
+  precision: 0.9
+  equipmentName: equipment2
+  time: 2
+  nodeDescription: This is node Jb
+  nodeID: Jb
+- cost: 2
+  precision: 0.96
+  equipmentName: ''
+  time: 2
+  nodeDescription: This is node Ch
+  nodeID: Ch
+- cost: 2
+  precision: 1.0
+  equipmentName: ''
+  time: 2
+  nodeDescription: This is node Kb
+  nodeID: Kb
+- cost: 4
+  precision: 1.0
+  equipmentName: ''
+  time: 1
+  nodeDescription: This is node Lb
+  nodeID: Lb
+- cost: 0
+  precision: 1.0
+  equipmentName: ''
+  time: 5
+  nodeDescription: This is node Mb
+  nodeID: Mb
+- cost: 7
+  precision: 1.0
+  equipmentName: ''
+  time: 4
+  nodeDescription: This is node Nb
+  nodeID: Nb
+- cost: 8
+  precision: 1.0
+  equipmentName: ''
+  time: 4
+  nodeDescription: This is node Ob
+  nodeID: Ob
+- cost: 4
+  precision: 1.0
+  equipmentName: ''
+  time: 2
+  nodeDescription: This is node Pb
+  nodeID: Pb
+- cost: 6
+  precision: 1.0
+  equipmentName: ''
+  time: 2
+  nodeDescription: This is node Qb
+  nodeID: Qb
+- cost: 4
+  precision: 1.0
+  equipmentName: ''
+  time: 1
+  nodeDescription: This is node Rb
+  nodeID: Rb
+- cost: 5
+  precision: 1.0
+  equipmentName: ''
+  time: 1
+  nodeDescription: This is node Sb
+  nodeID: Sb
+- cost: 5
+  precision: 1.0
+  equipmentName: ''
+  time: 2
+  nodeDescription: This is node Tb
+  nodeID: Tb
+- cost: 4
+  precision: 1.0
+  equipmentName: ''
+  time: 3
+  nodeDescription: This is node Ub
+  nodeID: Ub
+- cost: 3
+  precision: 1.0
+  equipmentName: ''
+  time: 6
+  nodeDescription: This is node Vb
+  nodeID: Vb
+- cost: 4
+  precision: 0.98
+  equipmentName: ''
+  time: 6
+  nodeDescription: This is node Dh
+  nodeID: Dh
+- cost: 0
+  precision: 1.0
+  equipmentName: ''
+  time: 3
+  nodeDescription: This is node Wb
+  nodeID: Wb
+- cost: 0
+  precision: 1.0
+  equipmentName: ''
+  time: 2
+  nodeDescription: This is node Xb
+  nodeID: Xb
+- cost: 0
+  precision: 1.0
+  equipmentName: ''
+  time: 5
+  nodeDescription: This is node Yb
+  nodeID: Yb
+- cost: 0
+  precision: 1.0
+  equipmentName: ''
+  time: 2
+  nodeDescription: This is node Zb
+  nodeID: Zb
+Paths:
+- from: Ab
+  to: Bb
+- from: Bb
+  to: Eb
+- from: Eb
+  to: Gb
+- from: Bb
+  to: Fb
+- from: Bb
+  to: Fb
+- from: Gb
+  to: Ib
+- from: Fb
+  to: Hb
+- from: Ab
+  to: Ib
+- from: Ab
+  to: Cb
+- from: Cb
+  to: Jb
+- from: Jb
+  to: Kb
+- from: Jb
+  to: Lb
+- from: Ab
+  to: Kb
+- from: Mb
+  to: Ob
+- from: Cb
+  to: Mb
+- from: Mb
+  to: Nb
+- from: Nb
+  to: Ob
+- from: Ab
+  to: Db
+- from: Db
+  to: Pb
+- from: Pb
+  to: Qb
+- from: Qb
+  to: Rb
+- from: Qb
+  to: Sb
+- from: Rb
+  to: Tb
+- from: Rb
+  to: Tb
+- from: Ab
+  to: Vb
+- from: Nb
+  to: Ub
+- from: Mb
+  to: Ub
+- from: Ob
+  to: Wb
+- from: Ab
+  to: Vb
+- from: Ab
+  to: Xb
+- from: Ab
+  to: Xb
+- from: Vb
+  to: Yb
+- from: Ab
+  to: Zb
+- from: Ab
+  to: Zb
+ConstraintConditions:
+- nodeID2: Vb
+  nodeID1: Dh
+  conditionID: DhVb
+  conditionType: SAME
+  conditionDescription: This is a constraint
+- nodeID2: Jb
+  nodeID1: Ch
+  conditionID: ChJb
+  conditionType: SAME
+  conditionDescription: This is a constraint
+- nodeID2: Bb
+  nodeID1: Ah
+  conditionID: AhBb
+  conditionType: SAME
+  conditionDescription: This is a constraint
+- nodeID2: Db
+  nodeID1: Bh
+  conditionID: BhDb
+  conditionType: SAME
+  conditionDescription: This is a constraint
+- nodeID2: Bb
+  nodeID1: Ab
+  conditionID: AbBb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Eb
+  nodeID1: Bb
+  conditionID: BbEb
+  conditionType: CONNECT
+  conditionDescription: This is a constraint
+- nodeID2: Gb
+  nodeID1: Eb
+  conditionID: EbGb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Ib
+  nodeID1: Eb
+  conditionID: EbIb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Fb
+  nodeID1: Bb
+  conditionID: BbFb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Fb
+  nodeID1: Eb
+  conditionID: EbFb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Ib
+  nodeID1: Eb
+  conditionID: EbIb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Hb
+  nodeID1: Bb
+  conditionID: BbHb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Ib
+  nodeID1: Hb
+  conditionID: HbIb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Cb
+  nodeID1: Ab
+  conditionID: AbCb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Jb
+  nodeID1: Cb
+  conditionID: CbJb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Kb
+  nodeID1: Jb
+  conditionID: JbKb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Lb
+  nodeID1: Jb
+  conditionID: JbLb
+  conditionType: CONNECT
+  conditionDescription: This is a constraint
+- nodeID2: Kb
+  nodeID1: Cb
+  conditionID: CbKb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Ob
+  nodeID1: Kb
+  conditionID: KbOb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Mb
+  nodeID1: Cb
+  conditionID: CbMb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Nb
+  nodeID1: Cb
+  conditionID: CbNb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Ob
+  nodeID1: Nb
+  conditionID: NbOb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Db
+  nodeID1: Ab
+  conditionID: AbDb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Pb
+  nodeID1: Db
+  conditionID: DbPb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Qb
+  nodeID1: Db
+  conditionID: DbQb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Rb
+  nodeID1: Qb
+  conditionID: QbRb
+  conditionType: CONNECT
+  conditionDescription: This is a constraint
+- nodeID2: Sb
+  nodeID1: Qb
+  conditionID: QbSb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Tb
+  nodeID1: Sb
+  conditionID: SbTb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Tb
+  nodeID1: Rb
+  conditionID: RbTb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Vb
+  nodeID1: Tb
+  conditionID: TbVb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Ub
+  nodeID1: Ib
+  conditionID: IbUb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Ub
+  nodeID1: Ob
+  conditionID: ObUb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Wb
+  nodeID1: Nb
+  conditionID: NbWb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Vb
+  nodeID1: Ob
+  conditionID: ObVb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Xb
+  nodeID1: Ub
+  conditionID: UbXb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Xb
+  nodeID1: Wb
+  conditionID: WbXb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Yb
+  nodeID1: Pb
+  conditionID: PbYb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Zb
+  nodeID1: Xb
+  conditionID: XbZb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint
+- nodeID2: Zb
+  nodeID1: Yb
+  conditionID: YbZb
+  conditionType: FOLLOW
+  conditionDescription: This is a constraint

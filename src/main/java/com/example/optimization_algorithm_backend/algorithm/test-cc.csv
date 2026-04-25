@@ -1,0 +1,3 @@
+conditionID,nodeID1,nodeID2,conditionType,conditionDescription
+AbBb,Ab,Bb,FOLLOW,This is a constraint
+BbCb,Bb,Cb,CONNECT,This is a constraint

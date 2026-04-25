@@ -1,0 +1,16 @@
+server:
+  port: 8081
+spring:
+  servlet:
+    multipart:
+        enabled: true
+        max-file-size: 10MB
+        max-request-size: 10MB
+upload_dir:
+  temp: temp/
+path:
+  historyPath: temp/history/
+  inputPath: temp/input/
+  outputPath: temp/output/
+  equipmentPath: temp/images/equipment/
+  tempPath: temp/temp/
