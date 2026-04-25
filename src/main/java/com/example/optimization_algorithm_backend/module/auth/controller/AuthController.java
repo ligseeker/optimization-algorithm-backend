@@ -6,7 +6,6 @@ import com.example.optimization_algorithm_backend.module.auth.dto.LoginRequest;
 import com.example.optimization_algorithm_backend.module.auth.service.AuthService;
 import com.example.optimization_algorithm_backend.module.auth.vo.CurrentUserVO;
 import com.example.optimization_algorithm_backend.module.auth.vo.LoginResponseVO;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,13 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import javax.validation.Valid;
 
 @Validated
 @RestController
 @RequestMapping("/api/auth")
-@ConditionalOnBean(DataSource.class)
 public class AuthController {
 
     private final AuthService authService;

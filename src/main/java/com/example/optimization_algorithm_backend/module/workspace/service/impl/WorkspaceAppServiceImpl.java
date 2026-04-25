@@ -6,7 +6,7 @@ import com.example.optimization_algorithm_backend.common.exception.BusinessExcep
 import com.example.optimization_algorithm_backend.common.response.ErrorCode;
 import com.example.optimization_algorithm_backend.common.response.PageResult;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.entity.WorkspaceEntity;
-import com.example.optimization_algorithm_backend.infrastructure.persistence.service.WorkspacePersistenceService;
+import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.WorkspaceMapper;
 import com.example.optimization_algorithm_backend.module.auth.service.CurrentUserService;
 import com.example.optimization_algorithm_backend.module.workspace.converter.WorkspaceConverter;
 import com.example.optimization_algorithm_backend.module.workspace.dto.CreateWorkspaceRequest;
@@ -14,34 +14,34 @@ import com.example.optimization_algorithm_backend.module.workspace.dto.UpdateWor
 import com.example.optimization_algorithm_backend.module.workspace.dto.WorkspaceQueryRequest;
 import com.example.optimization_algorithm_backend.module.workspace.service.WorkspaceAppService;
 import com.example.optimization_algorithm_backend.module.workspace.vo.WorkspaceVO;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-@ConditionalOnBean(DataSource.class)
 public class WorkspaceAppServiceImpl implements WorkspaceAppService {
 
     private static final int WORKSPACE_STATUS_ENABLED = 1;
+    private static final String DB_UNAVAILABLE_MESSAGE = "数据库未配置或不可用，工作空间接口暂不可用";
 
-    private final WorkspacePersistenceService workspacePersistenceService;
+    private final ObjectProvider<WorkspaceMapper> workspaceMapperProvider;
     private final CurrentUserService currentUserService;
 
-    public WorkspaceAppServiceImpl(WorkspacePersistenceService workspacePersistenceService,
+    public WorkspaceAppServiceImpl(ObjectProvider<WorkspaceMapper> workspaceMapperProvider,
                                    CurrentUserService currentUserService) {
-        this.workspacePersistenceService = workspacePersistenceService;
+        this.workspaceMapperProvider = workspaceMapperProvider;
         this.currentUserService = currentUserService;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public WorkspaceVO createWorkspace(CreateWorkspaceRequest request) {
+        WorkspaceMapper workspaceMapper = getWorkspaceMapper();
         Long currentUserId = currentUserService.getCurrentUserId();
         String workspaceName = request.getName().trim();
         ensureWorkspaceNameUnique(currentUserId, workspaceName, null);
@@ -51,12 +51,13 @@ public class WorkspaceAppServiceImpl implements WorkspaceAppService {
         entity.setName(workspaceName);
         entity.setDescription(request.getDescription());
         entity.setStatus(WORKSPACE_STATUS_ENABLED);
-        workspacePersistenceService.save(entity);
+        workspaceMapper.insert(entity);
         return WorkspaceConverter.toWorkspaceVO(entity);
     }
 
     @Override
     public PageResult<WorkspaceVO> listWorkspaces(WorkspaceQueryRequest request) {
+        WorkspaceMapper workspaceMapper = getWorkspaceMapper();
         Page<WorkspaceEntity> page = new Page<>(request.getPageNo(), request.getPageSize());
         LambdaQueryWrapper<WorkspaceEntity> queryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.hasText(request.getKeyword())) {
@@ -67,7 +68,7 @@ public class WorkspaceAppServiceImpl implements WorkspaceAppService {
         }
         queryWrapper.orderByDesc(WorkspaceEntity::getCreatedAt);
 
-        Page<WorkspaceEntity> resultPage = workspacePersistenceService.page(page, queryWrapper);
+        Page<WorkspaceEntity> resultPage = workspaceMapper.selectPage(page, queryWrapper);
         List<WorkspaceVO> records = resultPage.getRecords()
                 .stream()
                 .map(WorkspaceConverter::toWorkspaceVO)
@@ -94,7 +95,7 @@ public class WorkspaceAppServiceImpl implements WorkspaceAppService {
         if (request.getStatus() != null) {
             workspace.setStatus(request.getStatus());
         }
-        workspacePersistenceService.updateById(workspace);
+        getWorkspaceMapper().updateById(workspace);
         return WorkspaceConverter.toWorkspaceVO(workspace);
     }
 
@@ -102,11 +103,11 @@ public class WorkspaceAppServiceImpl implements WorkspaceAppService {
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteWorkspace(Long workspaceId) {
         WorkspaceEntity workspace = getAccessibleWorkspace(workspaceId);
-        return workspacePersistenceService.removeById(workspace.getId());
+        return getWorkspaceMapper().deleteById(workspace.getId()) > 0;
     }
 
     private WorkspaceEntity getAccessibleWorkspace(Long workspaceId) {
-        WorkspaceEntity workspace = workspacePersistenceService.getById(workspaceId);
+        WorkspaceEntity workspace = getWorkspaceMapper().selectById(workspaceId);
         if (workspace == null) {
             throw new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "工作空间不存在");
         }
@@ -126,9 +127,17 @@ public class WorkspaceAppServiceImpl implements WorkspaceAppService {
         if (excludeId != null) {
             queryWrapper.ne(WorkspaceEntity::getId, excludeId);
         }
-        long count = workspacePersistenceService.count(queryWrapper);
-        if (count > 0) {
+        Long count = getWorkspaceMapper().selectCount(queryWrapper);
+        if (count != null && count > 0) {
             throw new BusinessException(ErrorCode.CONFLICT, "工作空间名称已存在");
         }
+    }
+
+    private WorkspaceMapper getWorkspaceMapper() {
+        WorkspaceMapper mapper = workspaceMapperProvider.getIfAvailable();
+        if (mapper == null) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, DB_UNAVAILABLE_MESSAGE);
+        }
+        return mapper;
     }
 }
