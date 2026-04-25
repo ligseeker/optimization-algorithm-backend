@@ -1,0 +1,18 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+
+upload_dir:
+  temp: temp/
+
+path:
+  historyPath: temp/history/
+  inputPath: temp/input/
+  outputPath: temp/output/
+  equipmentPath: temp/images/equipment/
+  tempPath: temp/temp/
