@@ -28,7 +28,7 @@ spring:
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
   global-config:
     db-config:
       logic-delete-field: deleted
@@ -59,6 +59,12 @@ app:
       max-pool-size: 8
       queue-capacity: 100
       keep-alive-seconds: 60
+  optimize:
+    compensation:
+      enabled: true
+      scan-interval-ms: 60000
+    pending-timeout-minutes: 30
+    recovery-batch-size: 200
 
 upload_dir:
   temp: temp/

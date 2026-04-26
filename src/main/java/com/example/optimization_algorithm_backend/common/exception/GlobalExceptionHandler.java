@@ -5,6 +5,7 @@ import cn.dev33.satoken.exception.NotPermissionException;
 import cn.dev33.satoken.exception.NotRoleException;
 import com.example.optimization_algorithm_backend.common.response.ErrorCode;
 import com.example.optimization_algorithm_backend.common.response.Result;
+import com.example.optimization_algorithm_backend.module.yaml.vo.ImportErrorReport;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -33,6 +34,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public Result<Void> handleBusinessException(BusinessException ex) {
         return Result.fail(ex.getCode(), ex.getMessage());
+    }
+
+    @ExceptionHandler(ImportValidationException.class)
+    public Result<ImportErrorReport> handleImportValidationException(ImportValidationException ex) {
+        return new Result<>(ErrorCode.FILE_PARSE_FAILED.getCode(), ex.getMessage(), ex.getErrorReport());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

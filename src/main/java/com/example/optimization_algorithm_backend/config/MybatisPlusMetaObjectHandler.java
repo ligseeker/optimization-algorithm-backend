@@ -23,8 +23,12 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        this.strictUpdateFill(metaObject, "updatedAt", LocalDateTime.class, LocalDateTime.now());
-        this.strictUpdateFill(metaObject, "updatedBy", Long.class, resolveCurrentUserId());
+        // 直接设置值，不使用 strictUpdateFill（只在 null 时填充）
+        // 通过 setValue 强制覆盖已有值
+        LocalDateTime now = LocalDateTime.now();
+        Long userId = resolveCurrentUserId();
+        metaObject.setValue("updatedAt", now);
+        metaObject.setValue("updatedBy", userId);
     }
 
     private Long resolveCurrentUserId() {

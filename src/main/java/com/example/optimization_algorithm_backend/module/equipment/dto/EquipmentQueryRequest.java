@@ -7,28 +7,28 @@ import javax.validation.constraints.Size;
 public class EquipmentQueryRequest {
 
     @Min(value = 1, message = "页码必须大于等于1")
-    private long pageNo = 1L;
+    private Long pageNo;
 
     @Min(value = 1, message = "每页条数必须大于等于1")
     @Max(value = 100, message = "每页条数不能超过100")
-    private long pageSize = 20L;
+    private Long pageSize;
 
     @Size(max = 128, message = "关键字长度不能超过128位")
     private String keyword;
 
-    public long getPageNo() {
-        return pageNo;
+    public Long getPageNo() {
+        return pageNo == null ? 1L : pageNo;
     }
 
-    public void setPageNo(long pageNo) {
+    public void setPageNo(Long pageNo) {
         this.pageNo = pageNo;
     }
 
-    public long getPageSize() {
-        return pageSize;
+    public Long getPageSize() {
+        return pageSize == null ? 20L : pageSize;
     }
 
-    public void setPageSize(long pageSize) {
+    public void setPageSize(Long pageSize) {
         this.pageSize = pageSize;
     }
 
