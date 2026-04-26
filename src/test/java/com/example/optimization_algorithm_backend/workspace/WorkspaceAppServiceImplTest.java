@@ -102,4 +102,31 @@ class WorkspaceAppServiceImplTest {
         Assertions.assertEquals(2L, result.getRecords().get(0).getOwnerUserId());
         verify(workspaceMapper).selectPage(ArgumentMatchers.any(Page.class), ArgumentMatchers.any());
     }
+
+    @Test
+    void shouldListAllWorkspacesForAdmin() {
+        WorkspaceEntity w1 = new WorkspaceEntity();
+        w1.setId(1L);
+        w1.setOwnerUserId(2L);
+        w1.setName("w1");
+        w1.setStatus(1);
+
+        WorkspaceEntity w2 = new WorkspaceEntity();
+        w2.setId(2L);
+        w2.setOwnerUserId(3L);
+        w2.setName("w2");
+        w2.setStatus(1);
+
+        Page<WorkspaceEntity> resultPage = new Page<>(1, 10);
+        resultPage.setRecords(java.util.Arrays.asList(w1, w2));
+        resultPage.setTotal(2L);
+
+        when(currentUserService.isAdmin()).thenReturn(true);
+        when(workspaceMapper.selectPage(ArgumentMatchers.any(Page.class), ArgumentMatchers.any()))
+                .thenReturn(resultPage);
+
+        PageResult<WorkspaceVO> result = workspaceAppService.listWorkspaces(new WorkspaceQueryRequest());
+        Assertions.assertEquals(2L, result.getTotal());
+        Assertions.assertEquals(2, result.getRecords().size());
+    }
 }

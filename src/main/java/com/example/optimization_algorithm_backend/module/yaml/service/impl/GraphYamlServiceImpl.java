@@ -38,7 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -379,7 +379,8 @@ public class GraphYamlServiceImpl implements GraphYamlService {
         try {
             tempFile = File.createTempFile("graph-export-", ".yaml");
             Main.writeData(processMap, tempFile.getAbsolutePath());
-            return Files.readString(tempFile.toPath(), StandardCharsets.UTF_8);
+            // 旧算法写文件使用平台默认编码，这里用同编码读取避免 Windows 下导出乱码/解码失败。
+            return Files.readString(tempFile.toPath(), Charset.defaultCharset());
         } catch (Exception ex) {
             throw new BusinessException(ErrorCode.FILE_PARSE_FAILED, "YAML导出失败: " + ex.getMessage());
         } finally {

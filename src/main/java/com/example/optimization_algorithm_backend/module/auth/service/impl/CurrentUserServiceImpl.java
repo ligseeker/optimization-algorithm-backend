@@ -32,7 +32,8 @@ public class CurrentUserServiceImpl implements CurrentUserService {
 
     @Override
     public SysUserEntity getCurrentUserEntity() {
-        SysUserEntity user = getSysUserMapper().selectById(getCurrentUserId());
+        Long currentUserId = getCurrentUserId();
+        SysUserEntity user = getSysUserMapper().selectById(currentUserId);
         if (user == null) {
             throw new BusinessException(ErrorCode.UNAUTHORIZED, "用户不存在或已被删除");
         }
