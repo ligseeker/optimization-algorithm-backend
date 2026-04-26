@@ -1,5 +1,7 @@
 package com.example.optimization_algorithm_backend.module.constraint.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -8,25 +10,31 @@ import javax.validation.constraints.Size;
 
 public class UpdateConstraintRequest {
 
+    @Schema(description = "约束编码", example = "CND001")
     @NotBlank(message = "conditionCode不能为空")
     @Size(max = 64, message = "conditionCode长度不能超过64位")
     private String conditionCode;
 
+    @Schema(description = "约束类型", example = "CONNECT")
     @NotBlank(message = "conditionType不能为空")
     @Size(max = 32, message = "conditionType长度不能超过32位")
     private String conditionType;
 
+    @Schema(description = "约束描述", example = "修改后的约束描述")
     @Size(max = 255, message = "conditionDescription长度不能超过255位")
     private String conditionDescription;
 
+    @Schema(description = "节点1 ID", example = "3001")
     @NotNull(message = "nodeId1不能为空")
     @Min(value = 1, message = "nodeId1必须大于0")
     private Long nodeId1;
 
+    @Schema(description = "节点2 ID", example = "3002")
     @NotNull(message = "nodeId2不能为空")
     @Min(value = 1, message = "nodeId2必须大于0")
     private Long nodeId2;
 
+    @Schema(description = "是否启用：1启用，0禁用", example = "1")
     @Min(value = 0, message = "enabled只能是0或1")
     @Max(value = 1, message = "enabled只能是0或1")
     private Integer enabled;

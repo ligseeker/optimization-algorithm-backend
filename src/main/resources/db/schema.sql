@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS flow_graph (
     description VARCHAR(500) NULL,
     source_type VARCHAR(32) NOT NULL DEFAULT 'MANUAL',
     graph_status VARCHAR(32) NOT NULL DEFAULT 'DRAFT',
+    graph_version BIGINT NOT NULL DEFAULT 1,
     total_time INT NOT NULL DEFAULT 0,
     total_precision DECIMAL(10,4) NOT NULL DEFAULT 0.0000,
     total_cost INT NOT NULL DEFAULT 0,
@@ -52,6 +53,7 @@ CREATE TABLE IF NOT EXISTS flow_graph (
     UNIQUE KEY uk_flow_graph_workspace_name (workspace_id, name, deleted),
     KEY idx_flow_graph_workspace_id (workspace_id),
     KEY idx_flow_graph_created_by (created_by),
+    KEY idx_flow_graph_graph_version (graph_version),
     KEY idx_flow_graph_workspace_status (workspace_id, graph_status)
 );
 

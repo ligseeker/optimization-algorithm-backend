@@ -1,5 +1,7 @@
 package com.example.optimization_algorithm_backend.module.workspace.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -7,13 +9,16 @@ import javax.validation.constraints.Size;
 
 public class UpdateWorkspaceRequest {
 
+    @Schema(description = "工作空间名称", example = "研发空间")
     @NotBlank(message = "工作空间名称不能为空")
     @Size(max = 128, message = "工作空间名称长度不能超过128位")
     private String name;
 
+    @Schema(description = "工作空间描述", example = "用于算法优化研发")
     @Size(max = 500, message = "工作空间描述长度不能超过500位")
     private String description;
 
+    @Schema(description = "状态：1启用，0停用", example = "1")
     @Min(value = 0, message = "工作空间状态只能是0或1")
     @Max(value = 1, message = "工作空间状态只能是0或1")
     private Integer status;

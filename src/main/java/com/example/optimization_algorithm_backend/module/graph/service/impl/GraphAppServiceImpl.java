@@ -2,6 +2,7 @@ package com.example.optimization_algorithm_backend.module.graph.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.optimization_algorithm_backend.common.cache.RedisSafeClient;
 import com.example.optimization_algorithm_backend.common.exception.BusinessException;
 import com.example.optimization_algorithm_backend.common.response.ErrorCode;
 import com.example.optimization_algorithm_backend.common.response.PageResult;
@@ -16,13 +17,23 @@ import com.example.optimization_algorithm_backend.infrastructure.persistence.map
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessNodeMapper;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessPathMapper;
 import com.example.optimization_algorithm_backend.module.common.service.ResourceAccessService;
+import com.example.optimization_algorithm_backend.module.constraint.converter.ConstraintConverter;
+import com.example.optimization_algorithm_backend.module.constraint.vo.ConstraintVO;
+import com.example.optimization_algorithm_backend.module.equipment.converter.EquipmentConverter;
+import com.example.optimization_algorithm_backend.module.equipment.vo.EquipmentVO;
 import com.example.optimization_algorithm_backend.module.graph.converter.GraphConverter;
 import com.example.optimization_algorithm_backend.module.graph.dto.CreateGraphRequest;
 import com.example.optimization_algorithm_backend.module.graph.dto.GraphQueryRequest;
 import com.example.optimization_algorithm_backend.module.graph.dto.UpdateGraphRequest;
 import com.example.optimization_algorithm_backend.module.graph.service.GraphAppService;
+import com.example.optimization_algorithm_backend.module.graph.vo.GraphDetailVO;
 import com.example.optimization_algorithm_backend.module.graph.vo.GraphVO;
+import com.example.optimization_algorithm_backend.module.node.converter.NodeConverter;
+import com.example.optimization_algorithm_backend.module.node.vo.NodeVO;
+import com.example.optimization_algorithm_backend.module.path.converter.PathConverter;
+import com.example.optimization_algorithm_backend.module.path.vo.PathVO;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -30,6 +41,7 @@ import org.springframework.util.StringUtils;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,6 +50,7 @@ public class GraphAppServiceImpl implements GraphAppService {
     private static final String SOURCE_TYPE_MANUAL = "MANUAL";
     private static final String GRAPH_STATUS_DRAFT = "DRAFT";
     private static final String DB_UNAVAILABLE_MESSAGE = "数据库未配置或不可用，流程图接口暂不可用";
+    private static final String GRAPH_DETAIL_KEY_PREFIX = "graph:detail:";
 
     private final ObjectProvider<FlowGraphMapper> flowGraphMapperProvider;
     private final ObjectProvider<ProcessNodeMapper> processNodeMapperProvider;
@@ -45,19 +58,25 @@ public class GraphAppServiceImpl implements GraphAppService {
     private final ObjectProvider<EquipmentMapper> equipmentMapperProvider;
     private final ObjectProvider<ConstraintConditionMapper> constraintConditionMapperProvider;
     private final ResourceAccessService resourceAccessService;
+    private final RedisSafeClient redisSafeClient;
+
+    @Value("${app.cache.graph.detail-ttl-minutes:30}")
+    private Long graphDetailTtlMinutes;
 
     public GraphAppServiceImpl(ObjectProvider<FlowGraphMapper> flowGraphMapperProvider,
                                ObjectProvider<ProcessNodeMapper> processNodeMapperProvider,
                                ObjectProvider<ProcessPathMapper> processPathMapperProvider,
                                ObjectProvider<EquipmentMapper> equipmentMapperProvider,
                                ObjectProvider<ConstraintConditionMapper> constraintConditionMapperProvider,
-                               ResourceAccessService resourceAccessService) {
+                               ResourceAccessService resourceAccessService,
+                               RedisSafeClient redisSafeClient) {
         this.flowGraphMapperProvider = flowGraphMapperProvider;
         this.processNodeMapperProvider = processNodeMapperProvider;
         this.processPathMapperProvider = processPathMapperProvider;
         this.equipmentMapperProvider = equipmentMapperProvider;
         this.constraintConditionMapperProvider = constraintConditionMapperProvider;
         this.resourceAccessService = resourceAccessService;
+        this.redisSafeClient = redisSafeClient;
     }
 
     @Override
@@ -73,6 +92,7 @@ public class GraphAppServiceImpl implements GraphAppService {
         entity.setDescription(request.getDescription());
         entity.setSourceType(StringUtils.hasText(request.getSourceType()) ? request.getSourceType().trim() : SOURCE_TYPE_MANUAL);
         entity.setGraphStatus(StringUtils.hasText(request.getGraphStatus()) ? request.getGraphStatus().trim() : GRAPH_STATUS_DRAFT);
+        entity.setGraphVersion(1L);
         entity.setTotalTime(0);
         entity.setTotalPrecision(BigDecimal.ZERO);
         entity.setTotalCost(0);
@@ -99,6 +119,41 @@ public class GraphAppServiceImpl implements GraphAppService {
     @Override
     public GraphVO getGraph(Long graphId) {
         return GraphConverter.toGraphVO(resourceAccessService.getAccessibleGraph(graphId));
+    }
+
+    @Override
+    public GraphDetailVO getGraphDetail(Long graphId) {
+        FlowGraphEntity graph = resourceAccessService.getAccessibleGraph(graphId);
+        Long graphVersion = graph.getGraphVersion() == null ? 1L : graph.getGraphVersion();
+        String cacheKey = GRAPH_DETAIL_KEY_PREFIX + graphId + ":v" + graphVersion;
+        Object cached = redisSafeClient.get(cacheKey);
+        if (cached instanceof GraphDetailVO) {
+            return (GraphDetailVO) cached;
+        }
+
+        List<ProcessNodeEntity> nodes = getProcessNodeMapper().selectList(new LambdaQueryWrapper<ProcessNodeEntity>()
+                .eq(ProcessNodeEntity::getGraphId, graphId)
+                .orderByAsc(ProcessNodeEntity::getSortNo)
+                .orderByAsc(ProcessNodeEntity::getId));
+        List<ProcessPathEntity> paths = getProcessPathMapper().selectList(new LambdaQueryWrapper<ProcessPathEntity>()
+                .eq(ProcessPathEntity::getGraphId, graphId)
+                .orderByAsc(ProcessPathEntity::getId));
+        List<EquipmentEntity> equipments = getEquipmentMapper().selectList(new LambdaQueryWrapper<EquipmentEntity>()
+                .eq(EquipmentEntity::getGraphId, graphId)
+                .orderByAsc(EquipmentEntity::getId));
+        List<ConstraintConditionEntity> constraints = getConstraintConditionMapper().selectList(new LambdaQueryWrapper<ConstraintConditionEntity>()
+                .eq(ConstraintConditionEntity::getGraphId, graphId)
+                .orderByAsc(ConstraintConditionEntity::getId));
+
+        GraphDetailVO detail = new GraphDetailVO();
+        detail.setGraph(GraphConverter.toGraphVO(graph));
+        detail.setNodes(nodes.stream().map(NodeConverter::toNodeVO).collect(Collectors.toList()));
+        detail.setPaths(paths.stream().map(PathConverter::toPathVO).collect(Collectors.toList()));
+        detail.setEquipments(equipments.stream().map(EquipmentConverter::toEquipmentVO).collect(Collectors.toList()));
+        detail.setConstraints(constraints.stream().map(ConstraintConverter::toConstraintVO).collect(Collectors.toList()));
+
+        redisSafeClient.set(cacheKey, detail, graphDetailTtlMinutes, TimeUnit.MINUTES);
+        return detail;
     }
 
     @Override

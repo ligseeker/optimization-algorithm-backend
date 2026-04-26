@@ -98,6 +98,7 @@ public class GraphYamlServiceImpl implements GraphYamlService {
         ensureGraphNameUnique(workspaceId, finalGraphName);
 
         FlowGraphEntity graphEntity = ProcessMapConverter.toFlowGraphEntity(workspaceId, finalGraphName, processMap);
+        graphEntity.setGraphVersion(1L);
         graphEntity.setLastImportAt(LocalDateTime.now());
         getFlowGraphMapper().insert(graphEntity);
         Long graphId = graphEntity.getId();

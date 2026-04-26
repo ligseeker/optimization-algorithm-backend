@@ -17,6 +17,7 @@ import com.example.optimization_algorithm_backend.module.equipment.dto.Equipment
 import com.example.optimization_algorithm_backend.module.equipment.dto.UpdateEquipmentRequest;
 import com.example.optimization_algorithm_backend.module.equipment.service.EquipmentAppService;
 import com.example.optimization_algorithm_backend.module.equipment.vo.EquipmentVO;
+import com.example.optimization_algorithm_backend.module.graph.service.GraphVersionService;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,13 +35,16 @@ public class EquipmentAppServiceImpl implements EquipmentAppService {
     private final ObjectProvider<EquipmentMapper> equipmentMapperProvider;
     private final ObjectProvider<ProcessNodeMapper> processNodeMapperProvider;
     private final ResourceAccessService resourceAccessService;
+    private final GraphVersionService graphVersionService;
 
     public EquipmentAppServiceImpl(ObjectProvider<EquipmentMapper> equipmentMapperProvider,
                                    ObjectProvider<ProcessNodeMapper> processNodeMapperProvider,
-                                   ResourceAccessService resourceAccessService) {
+                                   ResourceAccessService resourceAccessService,
+                                   GraphVersionService graphVersionService) {
         this.equipmentMapperProvider = equipmentMapperProvider;
         this.processNodeMapperProvider = processNodeMapperProvider;
         this.resourceAccessService = resourceAccessService;
+        this.graphVersionService = graphVersionService;
     }
 
     @Override
@@ -57,6 +61,7 @@ public class EquipmentAppServiceImpl implements EquipmentAppService {
         entity.setColor(request.getColor());
         entity.setImagePath(request.getImagePath());
         getEquipmentMapper().insert(entity);
+        graphVersionService.increaseVersion(graphId);
         return EquipmentConverter.toEquipmentVO(entity);
     }
 
@@ -97,6 +102,7 @@ public class EquipmentAppServiceImpl implements EquipmentAppService {
         equipment.setColor(request.getColor());
         equipment.setImagePath(request.getImagePath());
         getEquipmentMapper().updateById(equipment);
+        graphVersionService.increaseVersion(graphId);
         return EquipmentConverter.toEquipmentVO(equipment);
     }
 
@@ -110,8 +116,11 @@ public class EquipmentAppServiceImpl implements EquipmentAppService {
                 .eq(ProcessNodeEntity::getGraphId, graphId)
                 .eq(ProcessNodeEntity::getEquipmentId, equipment.getId())
                 .set(ProcessNodeEntity::getEquipmentId, null));
-
-        return getEquipmentMapper().deleteById(equipment.getId()) > 0;
+        boolean deleted = getEquipmentMapper().deleteById(equipment.getId()) > 0;
+        if (deleted) {
+            graphVersionService.increaseVersion(graphId);
+        }
+        return deleted;
     }
 
     private EquipmentEntity getEquipmentInGraph(Long graphId, Long equipmentId) {

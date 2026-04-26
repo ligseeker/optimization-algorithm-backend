@@ -1,7 +1,6 @@
 package com.example.optimization_algorithm_backend.module.optimize.executor.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.example.optimization_algorithm_backend.algorithm.Main;
 import com.example.optimization_algorithm_backend.algorithm.algorithm1.Algorithm1;
 import com.example.optimization_algorithm_backend.algorithm.algorithm2.Algorithm2;
@@ -32,6 +31,9 @@ import com.example.optimization_algorithm_backend.infrastructure.persistence.map
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessPathMapper;
 import com.example.optimization_algorithm_backend.module.optimize.constant.OptimizeTaskStatus;
 import com.example.optimization_algorithm_backend.module.optimize.executor.AlgorithmExecutor;
+import com.example.optimization_algorithm_backend.module.optimize.service.OptimizeTaskCacheService;
+import com.example.optimization_algorithm_backend.module.optimize.service.OptimizeTaskStateService;
+import com.example.optimization_algorithm_backend.module.optimize.vo.OptimizeResultVO;
 import com.example.optimization_algorithm_backend.module.yaml.converter.ProcessMapConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.ObjectProvider;
@@ -64,6 +66,8 @@ public class AlgorithmExecutorImpl implements AlgorithmExecutor {
     private final ObjectProvider<ConstraintConditionMapper> constraintConditionMapperProvider;
     private final ThreadPoolTaskExecutor optimizeTaskExecutor;
     private final ObjectMapper objectMapper;
+    private final OptimizeTaskStateService optimizeTaskStateService;
+    private final OptimizeTaskCacheService optimizeTaskCacheService;
 
     public AlgorithmExecutorImpl(ObjectProvider<OptimizeTaskMapper> optimizeTaskMapperProvider,
                                  ObjectProvider<OptimizeResultMapper> optimizeResultMapperProvider,
@@ -73,7 +77,9 @@ public class AlgorithmExecutorImpl implements AlgorithmExecutor {
                                  ObjectProvider<EquipmentMapper> equipmentMapperProvider,
                                  ObjectProvider<ConstraintConditionMapper> constraintConditionMapperProvider,
                                  @Qualifier("optimizeTaskExecutor") ThreadPoolTaskExecutor optimizeTaskExecutor,
-                                 ObjectMapper objectMapper) {
+                                 ObjectMapper objectMapper,
+                                 OptimizeTaskStateService optimizeTaskStateService,
+                                 OptimizeTaskCacheService optimizeTaskCacheService) {
         this.optimizeTaskMapperProvider = optimizeTaskMapperProvider;
         this.optimizeResultMapperProvider = optimizeResultMapperProvider;
         this.flowGraphMapperProvider = flowGraphMapperProvider;
@@ -83,6 +89,8 @@ public class AlgorithmExecutorImpl implements AlgorithmExecutor {
         this.constraintConditionMapperProvider = constraintConditionMapperProvider;
         this.optimizeTaskExecutor = optimizeTaskExecutor;
         this.objectMapper = objectMapper;
+        this.optimizeTaskStateService = optimizeTaskStateService;
+        this.optimizeTaskCacheService = optimizeTaskCacheService;
     }
 
     @Override
@@ -234,36 +242,36 @@ public class AlgorithmExecutorImpl implements AlgorithmExecutor {
             result.setTotalCostAfter(output.afterCost);
             result.setScoreRatio(output.scoreRatio);
             getOptimizeResultMapper().insert(result);
-
-            getOptimizeTaskMapper().update(null, new LambdaUpdateWrapper<OptimizeTaskEntity>()
-                    .eq(OptimizeTaskEntity::getId, context.task.getId())
-                    .set(OptimizeTaskEntity::getTaskStatus, OptimizeTaskStatus.SUCCESS)
-                    .set(OptimizeTaskEntity::getFinishedAt, LocalDateTime.now())
-                    .set(OptimizeTaskEntity::getResultId, result.getId())
-                    .set(OptimizeTaskEntity::getErrorCode, null)
-                    .set(OptimizeTaskEntity::getErrorMessage, null));
+            optimizeTaskStateService.markSuccess(context.task.getId(), result.getId());
+            OptimizeResultVO resultVO = new OptimizeResultVO();
+            resultVO.setId(result.getId());
+            resultVO.setTaskId(result.getTaskId());
+            resultVO.setWorkspaceId(result.getWorkspaceId());
+            resultVO.setSourceGraphId(result.getSourceGraphId());
+            resultVO.setResultName(result.getResultName());
+            resultVO.setResultGraph(output.resultGraph);
+            resultVO.setDiff(output.diff);
+            resultVO.setMapCode(result.getMapCode());
+            resultVO.setTotalTimeBefore(result.getTotalTimeBefore());
+            resultVO.setTotalPrecisionBefore(result.getTotalPrecisionBefore());
+            resultVO.setTotalCostBefore(result.getTotalCostBefore());
+            resultVO.setTotalTimeAfter(result.getTotalTimeAfter());
+            resultVO.setTotalPrecisionAfter(result.getTotalPrecisionAfter());
+            resultVO.setTotalCostAfter(result.getTotalCostAfter());
+            resultVO.setScoreRatio(result.getScoreRatio());
+            resultVO.setCreatedAt(result.getCreatedAt());
+            optimizeTaskCacheService.cacheOptimizeResult(context.task.getId(), resultVO);
         } catch (Exception ex) {
             persistFailure(context.task.getId(), ex);
         }
     }
 
     private void persistFailure(Long taskId, Exception ex) {
-        getOptimizeTaskMapper().update(null, new LambdaUpdateWrapper<OptimizeTaskEntity>()
-                .eq(OptimizeTaskEntity::getId, taskId)
-                .set(OptimizeTaskEntity::getTaskStatus, OptimizeTaskStatus.FAILED)
-                .set(OptimizeTaskEntity::getFinishedAt, LocalDateTime.now())
-                .set(OptimizeTaskEntity::getErrorCode, "TASK_EXECUTION_FAILED")
-                .set(OptimizeTaskEntity::getErrorMessage, truncate(ex.getMessage(), 1000)));
+        optimizeTaskStateService.markFailed(taskId, "TASK_EXECUTION_FAILED", truncate(ex.getMessage(), 1000));
     }
 
     private void markTaskRunning(Long taskId) {
-        getOptimizeTaskMapper().update(null, new LambdaUpdateWrapper<OptimizeTaskEntity>()
-                .eq(OptimizeTaskEntity::getId, taskId)
-                .set(OptimizeTaskEntity::getTaskStatus, OptimizeTaskStatus.RUNNING)
-                .set(OptimizeTaskEntity::getStartedAt, LocalDateTime.now())
-                .set(OptimizeTaskEntity::getFinishedAt, null)
-                .set(OptimizeTaskEntity::getErrorCode, null)
-                .set(OptimizeTaskEntity::getErrorMessage, null));
+        optimizeTaskStateService.markRunning(taskId);
     }
 
     private InputInfo toInputInfo(ProcessMap processMap, int[] factors) {

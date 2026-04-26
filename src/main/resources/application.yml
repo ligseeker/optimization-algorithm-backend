@@ -13,10 +13,10 @@ spring:
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:123456}
   redis:
-    host: ${REDIS_HOST:127.0.0.1}
+    host: ${REDIS_HOST:172.30.166.190}
     port: ${REDIS_PORT:6379}
-    password: ${REDIS_PASSWORD:}
-    database: ${REDIS_DATABASE:0}
+    password: ${REDIS_PASSWORD:123456}
+    database: ${REDIS_DATABASE:1}
     timeout: 10s
     lettuce:
       pool:
@@ -65,6 +65,12 @@ app:
       scan-interval-ms: 60000
     pending-timeout-minutes: 30
     recovery-batch-size: 200
+  cache:
+    graph:
+      detail-ttl-minutes: 30
+    optimize:
+      task-status-ttl-minutes: 1440
+      result-ttl-minutes: 1440
 
 upload_dir:
   temp: temp/

@@ -11,6 +11,7 @@ public class GraphVO {
     private String description;
     private String sourceType;
     private String graphStatus;
+    private Long graphVersion;
     private Integer totalTime;
     private BigDecimal totalPrecision;
     private Integer totalCost;
@@ -63,6 +64,14 @@ public class GraphVO {
 
     public void setGraphStatus(String graphStatus) {
         this.graphStatus = graphStatus;
+    }
+
+    public Long getGraphVersion() {
+        return graphVersion;
+    }
+
+    public void setGraphVersion(Long graphVersion) {
+        this.graphVersion = graphVersion;
     }
 
     public Integer getTotalTime() {

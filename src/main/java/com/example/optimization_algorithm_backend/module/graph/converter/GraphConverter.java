@@ -16,6 +16,7 @@ public final class GraphConverter {
         vo.setDescription(entity.getDescription());
         vo.setSourceType(entity.getSourceType());
         vo.setGraphStatus(entity.getGraphStatus());
+        vo.setGraphVersion(entity.getGraphVersion());
         vo.setTotalTime(entity.getTotalTime());
         vo.setTotalPrecision(entity.getTotalPrecision());
         vo.setTotalCost(entity.getTotalCost());

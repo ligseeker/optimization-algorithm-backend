@@ -14,6 +14,7 @@ import com.example.optimization_algorithm_backend.infrastructure.persistence.map
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessNodeMapper;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessPathMapper;
 import com.example.optimization_algorithm_backend.module.common.service.ResourceAccessService;
+import com.example.optimization_algorithm_backend.module.graph.service.GraphVersionService;
 import com.example.optimization_algorithm_backend.module.node.converter.NodeConverter;
 import com.example.optimization_algorithm_backend.module.node.dto.CreateNodeRequest;
 import com.example.optimization_algorithm_backend.module.node.dto.NodeQueryRequest;
@@ -40,17 +41,20 @@ public class NodeAppServiceImpl implements NodeAppService {
     private final ObjectProvider<ConstraintConditionMapper> constraintConditionMapperProvider;
     private final ObjectProvider<EquipmentMapper> equipmentMapperProvider;
     private final ResourceAccessService resourceAccessService;
+    private final GraphVersionService graphVersionService;
 
     public NodeAppServiceImpl(ObjectProvider<ProcessNodeMapper> processNodeMapperProvider,
                               ObjectProvider<ProcessPathMapper> processPathMapperProvider,
                               ObjectProvider<ConstraintConditionMapper> constraintConditionMapperProvider,
                               ObjectProvider<EquipmentMapper> equipmentMapperProvider,
-                              ResourceAccessService resourceAccessService) {
+                              ResourceAccessService resourceAccessService,
+                              GraphVersionService graphVersionService) {
         this.processNodeMapperProvider = processNodeMapperProvider;
         this.processPathMapperProvider = processPathMapperProvider;
         this.constraintConditionMapperProvider = constraintConditionMapperProvider;
         this.equipmentMapperProvider = equipmentMapperProvider;
         this.resourceAccessService = resourceAccessService;
+        this.graphVersionService = graphVersionService;
     }
 
     @Override
@@ -72,6 +76,7 @@ public class NodeAppServiceImpl implements NodeAppService {
         entity.setCostValue(request.getCostValue() != null ? request.getCostValue() : 0);
         entity.setSortNo(request.getSortNo() != null ? request.getSortNo() : 0);
         getProcessNodeMapper().insert(entity);
+        graphVersionService.increaseVersion(graphId);
         return NodeConverter.toNodeVO(entity);
     }
 
@@ -125,6 +130,7 @@ public class NodeAppServiceImpl implements NodeAppService {
             node.setSortNo(request.getSortNo());
         }
         getProcessNodeMapper().updateById(node);
+        graphVersionService.increaseVersion(graphId);
         return NodeConverter.toNodeVO(node);
     }
 
@@ -144,8 +150,11 @@ public class NodeAppServiceImpl implements NodeAppService {
                 .and(wrapper -> wrapper.eq(ConstraintConditionEntity::getNodeId1, node.getId())
                         .or()
                         .eq(ConstraintConditionEntity::getNodeId2, node.getId())));
-
-        return getProcessNodeMapper().deleteById(node.getId()) > 0;
+        boolean deleted = getProcessNodeMapper().deleteById(node.getId()) > 0;
+        if (deleted) {
+            graphVersionService.increaseVersion(graphId);
+        }
+        return deleted;
     }
 
     private ProcessNodeEntity getNodeInGraph(Long graphId, Long nodeId) {

@@ -10,6 +10,7 @@ import com.example.optimization_algorithm_backend.infrastructure.persistence.ent
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessNodeMapper;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessPathMapper;
 import com.example.optimization_algorithm_backend.module.common.service.ResourceAccessService;
+import com.example.optimization_algorithm_backend.module.graph.service.GraphVersionService;
 import com.example.optimization_algorithm_backend.module.path.converter.PathConverter;
 import com.example.optimization_algorithm_backend.module.path.dto.CreatePathRequest;
 import com.example.optimization_algorithm_backend.module.path.dto.PathQueryRequest;
@@ -34,13 +35,16 @@ public class PathAppServiceImpl implements PathAppService {
     private final ObjectProvider<ProcessPathMapper> processPathMapperProvider;
     private final ObjectProvider<ProcessNodeMapper> processNodeMapperProvider;
     private final ResourceAccessService resourceAccessService;
+    private final GraphVersionService graphVersionService;
 
     public PathAppServiceImpl(ObjectProvider<ProcessPathMapper> processPathMapperProvider,
                               ObjectProvider<ProcessNodeMapper> processNodeMapperProvider,
-                              ResourceAccessService resourceAccessService) {
+                              ResourceAccessService resourceAccessService,
+                              GraphVersionService graphVersionService) {
         this.processPathMapperProvider = processPathMapperProvider;
         this.processNodeMapperProvider = processNodeMapperProvider;
         this.resourceAccessService = resourceAccessService;
+        this.graphVersionService = graphVersionService;
     }
 
     @Override
@@ -57,6 +61,7 @@ public class PathAppServiceImpl implements PathAppService {
         entity.setRelationType(StringUtils.hasText(request.getRelationType()) ? request.getRelationType().trim() : DEFAULT_RELATION_TYPE);
         entity.setRemark(request.getRemark());
         getProcessPathMapper().insert(entity);
+        graphVersionService.increaseVersion(graphId);
         return PathConverter.toPathVO(entity);
     }
 
@@ -89,6 +94,7 @@ public class PathAppServiceImpl implements PathAppService {
         path.setRelationType(StringUtils.hasText(request.getRelationType()) ? request.getRelationType().trim() : DEFAULT_RELATION_TYPE);
         path.setRemark(request.getRemark());
         getProcessPathMapper().updateById(path);
+        graphVersionService.increaseVersion(graphId);
         return PathConverter.toPathVO(path);
     }
 
@@ -96,7 +102,11 @@ public class PathAppServiceImpl implements PathAppService {
     @Transactional(rollbackFor = Exception.class)
     public boolean deletePath(Long graphId, Long pathId) {
         ProcessPathEntity path = getPathInGraph(graphId, pathId);
-        return getProcessPathMapper().deleteById(path.getId()) > 0;
+        boolean deleted = getProcessPathMapper().deleteById(path.getId()) > 0;
+        if (deleted) {
+            graphVersionService.increaseVersion(graphId);
+        }
+        return deleted;
     }
 
     private ProcessPathEntity getPathInGraph(Long graphId, Long pathId) {

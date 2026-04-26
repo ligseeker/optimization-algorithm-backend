@@ -1,22 +1,28 @@
 package com.example.optimization_algorithm_backend.module.path.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class CreatePathRequest {
 
+    @Schema(description = "起点节点ID", example = "3001")
     @NotNull(message = "startNodeId不能为空")
     @Min(value = 1, message = "startNodeId必须大于0")
     private Long startNodeId;
 
+    @Schema(description = "终点节点ID", example = "3002")
     @NotNull(message = "endNodeId不能为空")
     @Min(value = 1, message = "endNodeId必须大于0")
     private Long endNodeId;
 
+    @Schema(description = "关系类型", example = "NORMAL")
     @Size(max = 32, message = "relationType长度不能超过32位")
     private String relationType;
 
+    @Schema(description = "备注", example = "主链路")
     @Size(max = 255, message = "remark长度不能超过255位")
     private String remark;
 

@@ -16,6 +16,7 @@ import com.example.optimization_algorithm_backend.module.constraint.dto.CreateCo
 import com.example.optimization_algorithm_backend.module.constraint.dto.UpdateConstraintRequest;
 import com.example.optimization_algorithm_backend.module.constraint.service.ConstraintAppService;
 import com.example.optimization_algorithm_backend.module.constraint.vo.ConstraintVO;
+import com.example.optimization_algorithm_backend.module.graph.service.GraphVersionService;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,13 +34,16 @@ public class ConstraintAppServiceImpl implements ConstraintAppService {
     private final ObjectProvider<ConstraintConditionMapper> constraintConditionMapperProvider;
     private final ObjectProvider<ProcessNodeMapper> processNodeMapperProvider;
     private final ResourceAccessService resourceAccessService;
+    private final GraphVersionService graphVersionService;
 
     public ConstraintAppServiceImpl(ObjectProvider<ConstraintConditionMapper> constraintConditionMapperProvider,
                                     ObjectProvider<ProcessNodeMapper> processNodeMapperProvider,
-                                    ResourceAccessService resourceAccessService) {
+                                    ResourceAccessService resourceAccessService,
+                                    GraphVersionService graphVersionService) {
         this.constraintConditionMapperProvider = constraintConditionMapperProvider;
         this.processNodeMapperProvider = processNodeMapperProvider;
         this.resourceAccessService = resourceAccessService;
+        this.graphVersionService = graphVersionService;
     }
 
     @Override
@@ -60,6 +64,7 @@ public class ConstraintAppServiceImpl implements ConstraintAppService {
         entity.setNodeId2(request.getNodeId2());
         entity.setEnabled(request.getEnabled() != null ? request.getEnabled() : 1);
         getConstraintConditionMapper().insert(entity);
+        graphVersionService.increaseVersion(graphId);
         return ConstraintConverter.toConstraintVO(entity);
     }
 
@@ -105,6 +110,7 @@ public class ConstraintAppServiceImpl implements ConstraintAppService {
             constraint.setEnabled(request.getEnabled());
         }
         getConstraintConditionMapper().updateById(constraint);
+        graphVersionService.increaseVersion(graphId);
         return ConstraintConverter.toConstraintVO(constraint);
     }
 
@@ -112,7 +118,11 @@ public class ConstraintAppServiceImpl implements ConstraintAppService {
     @Transactional(rollbackFor = Exception.class)
     public boolean deleteConstraint(Long graphId, Long constraintId) {
         ConstraintConditionEntity constraint = getConstraintInGraph(graphId, constraintId);
-        return getConstraintConditionMapper().deleteById(constraint.getId()) > 0;
+        boolean deleted = getConstraintConditionMapper().deleteById(constraint.getId()) > 0;
+        if (deleted) {
+            graphVersionService.increaseVersion(graphId);
+        }
+        return deleted;
     }
 
     private ConstraintConditionEntity getConstraintInGraph(Long graphId, Long constraintId) {

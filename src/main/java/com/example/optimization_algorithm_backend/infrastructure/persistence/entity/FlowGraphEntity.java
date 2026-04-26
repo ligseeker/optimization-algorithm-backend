@@ -24,6 +24,9 @@ public class FlowGraphEntity extends BaseEntity {
     @TableField("graph_status")
     private String graphStatus;
 
+    @TableField("graph_version")
+    private Long graphVersion;
+
     @TableField("total_time")
     private Integer totalTime;
 
@@ -77,6 +80,14 @@ public class FlowGraphEntity extends BaseEntity {
 
     public void setGraphStatus(String graphStatus) {
         this.graphStatus = graphStatus;
+    }
+
+    public Long getGraphVersion() {
+        return graphVersion;
+    }
+
+    public void setGraphVersion(Long graphVersion) {
+        this.graphVersion = graphVersion;
     }
 
     public Integer getTotalTime() {

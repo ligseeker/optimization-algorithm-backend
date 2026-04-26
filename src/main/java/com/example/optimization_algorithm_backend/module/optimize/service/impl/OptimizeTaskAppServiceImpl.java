@@ -1,7 +1,6 @@
 package com.example.optimization_algorithm_backend.module.optimize.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.optimization_algorithm_backend.common.exception.BusinessException;
 import com.example.optimization_algorithm_backend.common.response.ErrorCode;
@@ -19,6 +18,8 @@ import com.example.optimization_algorithm_backend.module.optimize.dto.CreateOpti
 import com.example.optimization_algorithm_backend.module.optimize.dto.OptimizeTaskQueryRequest;
 import com.example.optimization_algorithm_backend.module.optimize.executor.AlgorithmExecutor;
 import com.example.optimization_algorithm_backend.module.optimize.service.OptimizeTaskAppService;
+import com.example.optimization_algorithm_backend.module.optimize.service.OptimizeTaskCacheService;
+import com.example.optimization_algorithm_backend.module.optimize.service.OptimizeTaskStateService;
 import com.example.optimization_algorithm_backend.module.optimize.vo.OptimizeResultVO;
 import com.example.optimization_algorithm_backend.module.optimize.vo.OptimizeTaskSubmitVO;
 import com.example.optimization_algorithm_backend.module.optimize.vo.OptimizeTaskVO;
@@ -48,19 +49,25 @@ public class OptimizeTaskAppServiceImpl implements OptimizeTaskAppService {
     private final CurrentUserService currentUserService;
     private final AlgorithmExecutor algorithmExecutor;
     private final ObjectMapper objectMapper;
+    private final OptimizeTaskCacheService optimizeTaskCacheService;
+    private final OptimizeTaskStateService optimizeTaskStateService;
 
     public OptimizeTaskAppServiceImpl(ObjectProvider<OptimizeTaskMapper> optimizeTaskMapperProvider,
                                       ObjectProvider<OptimizeResultMapper> optimizeResultMapperProvider,
                                       ResourceAccessService resourceAccessService,
                                       CurrentUserService currentUserService,
                                       AlgorithmExecutor algorithmExecutor,
-                                      ObjectMapper objectMapper) {
+                                      ObjectMapper objectMapper,
+                                      OptimizeTaskCacheService optimizeTaskCacheService,
+                                      OptimizeTaskStateService optimizeTaskStateService) {
         this.optimizeTaskMapperProvider = optimizeTaskMapperProvider;
         this.optimizeResultMapperProvider = optimizeResultMapperProvider;
         this.resourceAccessService = resourceAccessService;
         this.currentUserService = currentUserService;
         this.algorithmExecutor = algorithmExecutor;
         this.objectMapper = objectMapper;
+        this.optimizeTaskCacheService = optimizeTaskCacheService;
+        this.optimizeTaskStateService = optimizeTaskStateService;
     }
 
     @Override
@@ -84,6 +91,7 @@ public class OptimizeTaskAppServiceImpl implements OptimizeTaskAppService {
         task.setMaxRetryCount(3);
         task.setQueueTime(LocalDateTime.now());
         getOptimizeTaskMapper().insert(task);
+        optimizeTaskCacheService.cacheTaskStatus(task.getId(), OptimizeTaskStatus.PENDING);
 
         submitAfterCommit(task.getId());
         return OptimizeTaskConverter.toSubmitVO(task);
@@ -127,14 +135,31 @@ public class OptimizeTaskAppServiceImpl implements OptimizeTaskAppService {
 
     @Override
     public OptimizeTaskVO getTask(Long taskId) {
-        return OptimizeTaskConverter.toTaskVO(getAccessibleTask(taskId));
+        OptimizeTaskEntity task = getAccessibleTask(taskId);
+        String status = optimizeTaskCacheService.getTaskStatus(taskId);
+        if (status == null) {
+            optimizeTaskCacheService.cacheTaskStatus(taskId, task.getTaskStatus());
+        } else {
+            task.setTaskStatus(status);
+        }
+        return OptimizeTaskConverter.toTaskVO(task);
     }
 
     @Override
     public OptimizeResultVO getTaskResult(Long taskId) {
         OptimizeTaskEntity task = getAccessibleTask(taskId);
-        if (!OptimizeTaskStatus.SUCCESS.equals(task.getTaskStatus())) {
+        String cachedStatus = optimizeTaskCacheService.getTaskStatus(taskId);
+        String finalStatus = cachedStatus == null ? task.getTaskStatus() : cachedStatus;
+        if (cachedStatus == null) {
+            optimizeTaskCacheService.cacheTaskStatus(taskId, task.getTaskStatus());
+        }
+        if (!OptimizeTaskStatus.SUCCESS.equals(finalStatus)) {
             throw new BusinessException(ErrorCode.CONFLICT, "任务尚未成功完成，暂不可查询结果");
+        }
+
+        OptimizeResultVO cachedResult = optimizeTaskCacheService.getOptimizeResult(taskId);
+        if (cachedResult != null) {
+            return cachedResult;
         }
 
         OptimizeResultEntity result = getOptimizeResultMapper().selectOne(new LambdaQueryWrapper<OptimizeResultEntity>()
@@ -142,7 +167,9 @@ public class OptimizeTaskAppServiceImpl implements OptimizeTaskAppService {
         if (result == null) {
             throw new BusinessException(ErrorCode.RESOURCE_NOT_FOUND, "优化结果不存在");
         }
-        return OptimizeTaskConverter.toResultVO(result, objectMapper);
+        OptimizeResultVO resultVO = OptimizeTaskConverter.toResultVO(result, objectMapper);
+        optimizeTaskCacheService.cacheOptimizeResult(taskId, resultVO);
+        return resultVO;
     }
 
     @Override
@@ -157,18 +184,12 @@ public class OptimizeTaskAppServiceImpl implements OptimizeTaskAppService {
         if (retryCount >= maxRetryCount) {
             throw new BusinessException(ErrorCode.CONFLICT, "任务重试次数已达上限");
         }
+        Integer newRetryCount = retryCount + 1;
+        optimizeTaskCacheService.evictOptimizeResult(taskId);
+        optimizeTaskCacheService.evictTaskStatus(taskId);
+        optimizeTaskStateService.markPending(taskId, newRetryCount, LocalDateTime.now());
 
-        task.setRetryCount(retryCount + 1);
-        getOptimizeTaskMapper().update(null, new LambdaUpdateWrapper<OptimizeTaskEntity>()
-                .eq(OptimizeTaskEntity::getId, task.getId())
-                .set(OptimizeTaskEntity::getRetryCount, task.getRetryCount())
-                .set(OptimizeTaskEntity::getTaskStatus, OptimizeTaskStatus.PENDING)
-                .set(OptimizeTaskEntity::getQueueTime, LocalDateTime.now())
-                .set(OptimizeTaskEntity::getStartedAt, null)
-                .set(OptimizeTaskEntity::getFinishedAt, null)
-                .set(OptimizeTaskEntity::getErrorCode, null)
-                .set(OptimizeTaskEntity::getErrorMessage, null)
-                .set(OptimizeTaskEntity::getResultId, null));
+        task.setRetryCount(newRetryCount);
         task.setTaskStatus(OptimizeTaskStatus.PENDING);
 
         submitAfterCommit(task.getId());
