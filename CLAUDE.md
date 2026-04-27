@@ -1,58 +1,60 @@
 # CLAUDE.md
 
-## 项目定位
+## 项目背景
 
-本项目是 optimization-algorithm-backend，原本基于 YAML/JSON 文件读写管理流程图数据，并调用多目标优化算法。当前重构目标是将项目升级为基于 Spring Boot + MyBatis-Plus + MySQL + Redis + Sa-Token 的流程优化任务管理平台。
+本项目是流程优化任务管理系统，后端基于 Spring Boot + MyBatis-Plus + MySQL + Redis + Sa-Token。前端目标是实现流程图管理、节点/路径/装备/约束编辑、YAML 导入导出、异步优化任务提交、任务状态轮询、优化结果展示和操作日志查看。
 
-## 技术栈约束
+## 技术栈
 
-- Java 11
-- Spring Boot 2.7.14
-- MyBatis-Plus
-- MySQL 8
-- Redis
-- Sa-Token
-- ThreadPoolTaskExecutor
-- Knife4j 或 Springdoc OpenAPI
-- Docker Compose
-- JUnit
+前端使用：
 
-## 重构边界
+- React 18
+- TypeScript
+- Vite
+- Ant Design
+- React Router
+- TanStack Query
+- Zustand
+- Axios
+- React Flow
+- ECharts
+- Vitest
+- Playwright
 
-- 不要推倒重写整个项目。
-- algorithm 包中的核心算法尽量少改。
-- 不要把 ProcessMap、MultiNode、ProcessPath、ConstraintCondition 直接改成数据库 Entity。
-- 新增 entity、dto、vo、mapper、converter 层。
-- YAML 只作为导入/导出格式，不再作为主存储。
-- 旧接口暂时保留，新接口使用 /api 前缀。
-- 所有新接口统一返回 Result<T>。
-- 所有写操作要考虑事务。
-- 所有资源访问必须校验当前用户权限。
-- Redis 只是缓存，MySQL 是最终数据源。
-- 优化任务使用线程池异步执行，暂不引入 MQ。
+## 后端接口约定
 
-## 功能目标
+- 新接口统一使用 `/api` 前缀。
+- 统一返回结构为 `Result<T>`。
+- 登录认证使用 Sa-Token。
+- 前端请求需要在 header 中携带 token。
+- 401001 表示未登录或登录失效。
+- 数据库不可用时可能返回 500001。
+- 流程图详情接口优先使用 `GET /api/graphs/{graphId}/detail`。
+- 优化任务状态通过 `GET /api/optimize/tasks/{taskId}` 查询。
+- 优化结果通过 `GET /api/optimize/tasks/{taskId}/result` 查询。
 
-必须实现：
-1. 用户登录与 Sa-Token 鉴权
-2. 工作空间管理
-3. 流程图、节点、路径、装备、约束结构化管理
-4. YAML 导入导出
-5. 优化任务中心
-6. 任务状态查询
-7. 优化结果查询
-8. 简化版 Diff
-9. Redis 缓存
-10. 操作日志
-11. 接口文档
-12. Docker Compose
+## 代码规范
 
-## 代码风格
+- 所有前端代码使用 TypeScript。
+- 禁止使用 any，除非添加 TODO 注释说明原因。
+- API 类型必须放在 `src/types`。
+- API 请求必须放在 `src/api`。
+- 页面组件放在 `src/pages`。
+- 可复用组件放在 `src/components`。
+- 状态管理放在 `src/stores`。
+- 不要在页面组件中直接写 axios 请求。
+- 所有异步请求优先使用 TanStack Query。
+- 所有表单必须有前端校验。
+- 所有删除操作必须有二次确认。
+- 所有接口错误必须通过统一错误处理展示。
 
-- Controller 只负责参数接收和响应。
-- Service 负责业务逻辑。
-- Mapper 负责数据库访问。
-- Converter 负责 Entity/DTO/VO/算法模型转换。
-- 不要在单例 Service 中保存任务上下文。
-- 不要直接返回 Map<String, Object>。
-- 不要在 Controller 中直接 new Algorithm1/2/3。
+## 常用命令
+
+```bash
+cd frontend
+pnpm install
+pnpm dev
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
