@@ -33,6 +33,7 @@ vi.mock('../../api/workspace', () => ({
 }))
 
 vi.mock('../../api/yaml', () => ({
+  exportGraphYaml: vi.fn(),
   importGraphYaml: vi.fn(),
 }))
 

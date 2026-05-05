@@ -263,3 +263,17 @@
 - 失败项：首轮 `npm run lint` 因弹窗组件在 effect 中同步清理 state 触发 React Hooks 规则而失败
 - 修复动作：将弹窗关闭清理移动到 `handleCancel`，避免 effect 中同步 setState；随后重跑 `lint`、`typecheck`、`build`、`test` 全部通过
 - 结论：`P6-T01` 完成；流程图列表已支持 YAML 文件导入，导入组件校验 `.yaml / .yml` 文件、展示 loading / success / error 状态，并在成功后刷新流程图列表
+
+## Round 17
+
+- 轮次目标：完成 `P6-T02`，实现 YAML 导出
+- 修改范围：`frontend/src/components/import-export/**`、`frontend/src/pages/graphs/**`、`frontend/src/utils/**`、`docs/agent-team/**`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- `npm run test`
+- 结果：通过
+- 失败项：无
+- 修复动作：无
+- 结论：`P6-T02` 完成；流程图列表已支持调用 JSON 导出接口，从 `fileName` / `yamlContent` 生成本地 Blob 下载，并在文件名缺失时使用 `graph-{graphId}.yaml` 兜底

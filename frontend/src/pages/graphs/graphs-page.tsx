@@ -35,6 +35,7 @@ import { getWorkspaceDetail } from '../../api/workspace'
 import GraphFormModal from '../../components/graph/graph-form-modal'
 import type { GraphFormValues } from '../../components/graph/graph-form-modal'
 import GraphYamlImportModal from '../../components/import-export/graph-yaml-import-modal'
+import GraphYamlExportButton from '../../components/import-export/graph-yaml-export-button'
 import { useDebouncedValue } from '../../hooks/use-debounced-value'
 import { useDocumentTitle } from '../../hooks/use-document-title'
 import type { GraphVO } from '../../types/graph'
@@ -254,7 +255,7 @@ function GraphsPage() {
     {
       title: '操作',
       key: 'actions',
-      width: 360,
+      width: 440,
       render: (_, graph) => (
         <Space>
           <Button
@@ -284,6 +285,11 @@ function GraphsPage() {
           >
             编辑
           </Button>
+          <GraphYamlExportButton
+            graphId={graph.id}
+            graphName={graph.name}
+            onClick={(event) => event.stopPropagation()}
+          />
           <Button
             danger
             icon={<DeleteOutlined />}

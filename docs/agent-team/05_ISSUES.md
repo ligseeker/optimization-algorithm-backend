@@ -161,3 +161,12 @@
 - 责任 Agent：Import/Export Agent
 - 下一步：进入 YAML 导出
 - 状态：`NO_NEW_ISSUE`
+
+## P6-T02 阻塞检查
+
+- 类型：任务检查记录
+- 现状：YAML 导出开发、检查命令和前端构建均已完成；本任务未新增阻塞项
+- 影响：可继续执行 `P7-T01`
+- 责任 Agent：Import/Export Agent
+- 下一步：进入流程图编辑器基础框架
+- 状态：`NO_NEW_ISSUE`

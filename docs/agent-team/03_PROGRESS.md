@@ -2,8 +2,8 @@
 
 ## 当前阶段
 
-- 阶段名称：`Phase 6 / YAML Import Export`
-- 阶段目标：完成 YAML 导入、导出与错误展示
+- 阶段名称：`Phase 7 / Graph Editor`
+- 阶段目标：完成流程图编辑器展示框架、图元 CRUD 与编辑交互
 - 当前状态：`IN_PROGRESS`
 
 ## 已完成任务
@@ -19,14 +19,14 @@
 
 ## 正在执行任务
 
-- `P6-T02` 实现 YAML 导出
-- 当前执行 Agent：`Import/Export Agent`
+- `P7-T01` 实现流程图编辑器基础框架
+- 当前执行 Agent：`Graph Editor Agent`
 
 ## 下一步任务
 
-- `P6-T02` 实现 YAML 导出
 - `P7-T01` 实现流程图编辑器基础框架
 - `P7-T02` 实现图元 CRUD 与编辑交互
+- `P8-T01` 建立联调环境与脚本
 - 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
 
 ## 近期里程碑
@@ -58,3 +58,4 @@
 - `P5-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成任务中心、筛选、分页、提交优化任务、运行态轮询、详情页、失败重试和成功结果入口
 - `P5-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 `/tasks/:taskId/result` 结果页、任务状态前置判断、指标对比图、Result Graph / Diff / mapCode 安全展示
 - `P6-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 YAML 导入弹窗、文件类型校验、multipart 上传、成功统计展示、结构化错误展示和导入后刷新流程图列表
+- `P6-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 YAML 导出按钮、JSON 响应读取、`yamlContent` 转 Blob 下载和默认文件名兜底

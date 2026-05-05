@@ -211,7 +211,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：可从图详情或列表触发导出；下载文件内容正确；异常有提示
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P7-T01 实现流程图编辑器基础框架
 
@@ -223,7 +223,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：能加载 `graph detail` 数据并映射为画布；页面状态完整；结构可扩展
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P7-T02 实现图元 CRUD 与编辑交互
 
