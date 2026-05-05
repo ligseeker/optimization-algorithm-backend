@@ -67,7 +67,7 @@
 - 禁止修改文件范围：`src/**`、`docs/agent-team/**`
 - 验收标准：目录结构符合 AGENTS 规则，包含 `src/api`、`src/types`、`src/pages`、`src/components`
 - 需要运行的检查命令：`npm install`、`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`TODO`
+- 状态：`DONE`
 
 ### P1-T02 建立工程基础设施
 
@@ -79,7 +79,7 @@
 - 禁止修改文件范围：`src/**`
 - 验收标准：基础依赖安装完毕；`VITE_API_BASE_URL` 生效；脚本可运行
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P2-T01 建立 HTTP Client 与鉴权拦截
 

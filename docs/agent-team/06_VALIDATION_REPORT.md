@@ -79,3 +79,28 @@
 - 失败项：原始 `mvn spring-boot:run` 因 `8081` 端口被现有 Java 进程占用而失败
 - 修复动作：保留现有 `8081` 实例不动，使用临时 `8082` 端口完成最小修复启动验证，并在验证后停止临时进程
 - 结论：`P0-T03` 完成；后端服务可启动、Swagger/OpenAPI 可访问、Sa-Token 读取 Header/Cookie 能力已确认，当前主要阻塞转为“缺少默认测试账号”
+
+## Round 4
+
+- 轮次目标：同步用户补充的联调基线信息
+- 修改范围：`docs/agent-team/03_PROGRESS.md`、`docs/agent-team/05_ISSUES.md`、`docs/agent-team/06_VALIDATION_REPORT.md`
+- 执行命令：
+- 文档状态同步，无需运行构建类命令
+- 结果：完成
+- 失败项：无
+- 修复动作：无
+- 结论：已记录测试账号 `admin / admin123`；已记录 `8081` 占用解除，后续联调默认使用 `http://127.0.0.1:8081`
+
+## Round 5
+
+- 轮次目标：完成 `P1-T01`，初始化前端工程骨架
+- 修改范围：`frontend/**`、`docs/agent-team/02_TASK_BACKLOG.md`、`docs/agent-team/03_PROGRESS.md`
+- 执行命令：
+- `npm install`
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- 结果：通过
+- 失败项：无
+- 修复动作：无
+- 结论：`P1-T01` 完成；已在空 `frontend/` 目录中建立 React 18 + TypeScript + Vite 基础骨架，补齐 `typecheck` 脚本与基础目录，占位环境变量已写入
