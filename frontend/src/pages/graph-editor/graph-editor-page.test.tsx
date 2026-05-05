@@ -54,6 +54,30 @@ vi.mock('../../api/graph', () => ({
   ),
 }))
 
+vi.mock('../../api/node', () => ({
+  createNode: vi.fn(),
+  deleteNode: vi.fn(),
+  updateNode: vi.fn(),
+}))
+
+vi.mock('../../api/path', () => ({
+  createPath: vi.fn(),
+  deletePath: vi.fn(),
+  updatePath: vi.fn(),
+}))
+
+vi.mock('../../api/equipment', () => ({
+  createEquipment: vi.fn(),
+  deleteEquipment: vi.fn(),
+  updateEquipment: vi.fn(),
+}))
+
+vi.mock('../../api/constraint', () => ({
+  createConstraint: vi.fn(),
+  deleteConstraint: vi.fn(),
+  updateConstraint: vi.fn(),
+}))
+
 function renderWithProviders() {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -94,6 +118,7 @@ describe('GraphEditorPage', () => {
 
     expect(await screen.findByRole('heading', { name: '测试流程图' })).toBeInTheDocument()
     expect(screen.getByText('图资源')).toBeInTheDocument()
+    expect(screen.getByText('图元管理')).toBeInTheDocument()
     expect(screen.getByTestId('reactflow-canvas')).toBeInTheDocument()
     expect(screen.getByText('属性面板')).toBeInTheDocument()
   })

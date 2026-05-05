@@ -235,7 +235,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：所有图元操作通过 API 层完成；删除二次确认；表单校验完整
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P8-T01 建立联调环境与脚本
 
@@ -247,7 +247,7 @@
 - 禁止修改文件范围：`src/main/**`
 - 验收标准：新成员可按文档启动前后端并完成基本联调
 - 需要运行的检查命令：`mvn spring-boot:run`、`npm run dev`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P8-T02 执行前后端全链路联调
 
