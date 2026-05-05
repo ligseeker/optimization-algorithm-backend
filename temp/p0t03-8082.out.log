@@ -1,0 +1,85 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------< com.example:optimization_algorithm_backend >-------------
+[INFO] Building optimization_algorithm_backend 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:2.7.14:run (default-cli) > test-compile @ optimization_algorithm_backend >>>
+[INFO] 
+[INFO] --- resources:3.2.0:resources (default-resources) @ optimization_algorithm_backend ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] Copying 15 resources
+[INFO] 
+[INFO] --- compiler:3.10.1:compile (default-compile) @ optimization_algorithm_backend ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- resources:3.2.0:testResources (default-testResources) @ optimization_algorithm_backend ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Using 'UTF-8' encoding to copy filtered properties files.
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- compiler:3.10.1:testCompile (default-testCompile) @ optimization_algorithm_backend ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] <<< spring-boot:2.7.14:run (default-cli) < test-compile @ optimization_algorithm_backend <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:2.7.14:run (default-cli) @ optimization_algorithm_backend ---
+[INFO] Attaching agents: []
+15:49:54.921 [Thread-0] DEBUG org.springframework.boot.devtools.restart.classloader.RestartClassLoader - Created RestartClassLoader org.springframework.boot.devtools.restart.classloader.RestartClassLoader@60c343e2
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::               (v2.7.14)
+
+2026-05-05 15:49:55.190  INFO 62172 --- [  restartedMain] .OptimizationAlgorithmBackendApplication : Starting OptimizationAlgorithmBackendApplication using Java 17.0.14 on LAPTOP-S76OUJDP with PID 62172 (C:\Users\zhangll\Desktop\optimization-algorithm-backend\target\classes started by zhangll in C:\Users\zhangll\Desktop\optimization-algorithm-backend)
+2026-05-05 15:49:55.191  INFO 62172 --- [  restartedMain] .OptimizationAlgorithmBackendApplication : No active profile set, falling back to 1 default profile: "default"
+2026-05-05 15:49:55.221  INFO 62172 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-05-05 15:49:55.221  INFO 62172 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-05-05 15:49:55.724  INFO 62172 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-05-05 15:49:55.727  INFO 62172 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-05-05 15:49:55.756  INFO 62172 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 0 Redis repository interfaces.
+2026-05-05 15:49:56.308  INFO 62172 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
+2026-05-05 15:49:56.313  INFO 62172 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-05 15:49:56.314  INFO 62172 --- [  restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.78]
+2026-05-05 15:49:56.361  INFO 62172 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-05 15:49:56.361  INFO 62172 --- [  restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1140 ms
+____ ____    ___ ____ _  _ ____ _  _ 
+[__  |__| __  |  |  | |_/  |___ |\ | 
+___] |  |     |  |__| | \_ |___ | \| 
+https://sa-token.cc (v1.39.0)
+[32mSA [INFO] -->: È«¾ÖÅäÖÃ SaTokenConfig [tokenName=satoken, timeout=2592000, activeTimeout=-1, dynamicActiveTimeout=false, isConcurrent=true, isShare=false, maxLoginCount=12, maxTryTimes=12, isReadBody=true, isReadHeader=true, isReadCookie=true, isWriteHeader=false, tokenStyle=uuid, dataRefreshPeriod=30, tokenSessionCheckLogin=true, autoRenew=true, tokenPrefix=null, isPrint=true, isLog=true, logLevel=trace, logLevelInt=1, isColorLog=true, jwtSecretKey=null, httpBasic=, httpDigest=, currDomain=null, sameTokenTimeout=86400, checkSameToken=false, cookie=SaCookieConfig [domain=null, path=null, secure=false, httpOnly=false, sameSite=null], sign=SaSignConfig [secretKey=null, timestampDisparity=900000]] [39m
+[32mSA [INFO] -->: È«¾Ö×é¼þ SaTokenContext ÔØÈë³É¹¦: cn.dev33.satoken.spring.SaTokenContextForSpring[39m
+[32mSA [INFO] -->: È«¾Ö×é¼þ SaJsonTemplate ÔØÈë³É¹¦: cn.dev33.satoken.spring.json.SaJsonTemplateForJackson[39m
+ _ _   |_  _ _|_. ___ _ |    _ 
+| | |\/|_)(_| | |_\  |_)||_|_\ 
+     /               |         
+                        3.5.5 
+2026-05-05 15:49:57.163  WARN 62172 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-05-05 15:49:57.339  INFO 62172 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
+2026-05-05 15:49:57.347  INFO 62172 --- [  restartedMain] .OptimizationAlgorithmBackendApplication : Started OptimizationAlgorithmBackendApplication in 2.412 seconds (JVM running for 2.683)
+2026-05-05 15:49:57.446  INFO 62172 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-05 15:49:57.560  INFO 62172 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-05 15:49:59.584  INFO 62172 --- [nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-05 15:49:59.585  INFO 62172 --- [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-05 15:49:59.586  INFO 62172 --- [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  30.172 s
+[INFO] Finished at: 2026-05-05T15:50:23+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:2.7.14:run (default-cli) on project optimization_algorithm_backend: Application finished with exit code: -1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
