@@ -151,7 +151,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：列表支持 loading / error / empty；删除具备二次确认；表单校验完整
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`TODO`
+- 状态：`DONE`
 
 ### P4-T02 实现流程图列表与 CRUD
 
@@ -163,7 +163,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：可在工作空间维度管理流程图；删除二次确认；详情可跳转编辑器和结果页
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P5-T01 实现任务中心
 

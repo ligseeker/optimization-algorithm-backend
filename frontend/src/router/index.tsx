@@ -10,7 +10,7 @@ import GraphsPage from '../pages/graphs-page'
 import ResultsPage from '../pages/results-page'
 import SettingsPage from '../pages/settings-page'
 import TasksPage from '../pages/tasks-page'
-import WorkspacesPage from '../pages/workspaces-page'
+import WorkspacesPage from '../pages/workspaces/workspaces-page'
 
 export const appRouter = createBrowserRouter([
   {
@@ -40,6 +40,10 @@ export const appRouter = createBrowserRouter([
           {
             path: 'workspaces',
             element: <WorkspacesPage />,
+          },
+          {
+            path: 'workspaces/:workspaceId/graphs',
+            element: <GraphsPage />,
           },
           {
             path: 'graphs',

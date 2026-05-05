@@ -193,3 +193,17 @@
 - 修复动作：无
 - 登录联调结果：沿用 Round 10 的后端实测结果，路由守卫和布局逻辑已基于真实 `satoken` 会话模型落地
 - 结论：`P3-T02` 完成；未登录访问业务路由会跳转 `/login`，已登录访问 `/login` 会回到 `/dashboard`，刷新时会先显示 session restoring 状态，不会误跳转
+
+## Round 12
+
+- 轮次目标：完成 `P4-T01`，实现工作空间列表与 CRUD
+- 修改范围：`frontend/src/pages/workspaces/**`、`frontend/src/components/workspace/**`、`frontend/src/hooks/**`、`frontend/src/router/**`、`docs/agent-team/**`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- `npm run test`
+- 结果：通过
+- 失败项：无
+- 修复动作：无
+- 结论：`P4-T01` 完成；工作空间页面已接入 API 层，支持分页、搜索、loading/error/empty、创建、编辑、删除二次确认和跳转 `/workspaces/:workspaceId/graphs`
