@@ -10,7 +10,8 @@ import GraphDetailPage from '../pages/graphs/graph-detail-page'
 import GraphsPage from '../pages/graphs/graphs-page'
 import ResultsPage from '../pages/results-page'
 import SettingsPage from '../pages/settings-page'
-import TasksPage from '../pages/tasks-page'
+import TaskDetailPage from '../pages/tasks/task-detail-page'
+import TasksPage from '../pages/tasks/tasks-page'
 import WorkspacesPage from '../pages/workspaces/workspaces-page'
 
 export const appRouter = createBrowserRouter([
@@ -65,6 +66,10 @@ export const appRouter = createBrowserRouter([
           {
             path: 'tasks',
             element: <TasksPage />,
+          },
+          {
+            path: 'tasks/:taskId',
+            element: <TaskDetailPage />,
           },
           {
             path: 'results',

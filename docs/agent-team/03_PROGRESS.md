@@ -2,8 +2,8 @@
 
 ## 当前阶段
 
-- 阶段名称：`Phase 4 / Workspace And Graph Lists`
-- 阶段目标：完成工作空间和流程图列表、搜索、分页与基础 CRUD
+- 阶段名称：`Phase 5 / Task And Result`
+- 阶段目标：完成任务中心、优化任务轮询、结果展示与指标可视化
 - 当前状态：`IN_PROGRESS`
 
 ## 已完成任务
@@ -19,14 +19,14 @@
 
 ## 正在执行任务
 
-- `P5-T01` 实现任务中心
+- `P5-T02` 实现结果页与可视化
 - 当前执行 Agent：`Task/Result Agent`
 
 ## 下一步任务
 
-- `P5-T01` 实现任务中心
 - `P5-T02` 实现结果页与可视化
 - `P6-T01` 实现 YAML 导入
+- `P6-T02` 实现 YAML 导出
 - 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
 
 ## 近期里程碑
@@ -55,3 +55,4 @@
 - `P3-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成受保护路由、访客路由、主布局、导航菜单、404 页和未授权提示页
 - `P4-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成工作空间列表、搜索、分页、创建、编辑、删除确认和工作空间流程图入口
 - `P4-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成工作空间下流程图列表、搜索、分页、创建、编辑、删除确认、详情入口和编辑器入口
+- `P5-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成任务中心、筛选、分页、提交优化任务、运行态轮询、详情页、失败重试和成功结果入口

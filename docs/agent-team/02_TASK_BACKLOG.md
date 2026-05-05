@@ -175,7 +175,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：任务状态可轮询；页面卸载时停止轮询；失败任务可重试并提示结果
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P5-T02 实现结果页与可视化
 
@@ -187,7 +187,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：成功、失败、空结果均可展示；结果结构与后端保持一致
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P6-T01 实现 YAML 导入
 

@@ -221,3 +221,17 @@
 - 失败项：无
 - 修复动作：无
 - 结论：`P4-T02` 完成；流程图页面已接入 API 层，支持工作空间上下文、分页、搜索、loading/error/empty、创建、编辑、删除二次确认、详情入口和 `/graphs/:graphId/editor` 入口
+
+## Round 14
+
+- 轮次目标：完成 `P5-T01`，实现任务中心
+- 修改范围：`frontend/src/pages/tasks/**`、`frontend/src/components/tasks/**`、`frontend/src/router/**`、`docs/agent-team/**`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- `npm run test`
+- 结果：通过
+- 失败项：首轮 `typecheck` / `build` 因任务状态筛选值被推断为普通 `string` 而失败
+- 修复动作：将任务状态筛选收窄为 `TaskStatusFilter`，确保查询参数与 `OptimizeTaskQueryRequest.taskStatus` 类型一致
+- 结论：`P5-T01` 完成；任务中心已支持分页列表、workspaceId / graphId / taskStatus 筛选、任务提交、运行态轮询、详情查看、失败重试和成功结果入口
