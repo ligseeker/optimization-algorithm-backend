@@ -156,3 +156,26 @@
 - 失败项：无
 - 修复动作：无
 - 结论：`P2-T03` 完成；新业务接口已按领域封装，`legacyAlgorithm.ts` 已单独隔离旧接口，YAML 导入导出和优化任务路径均与真实控制器保持一致
+
+## Round 10
+
+- 轮次目标：完成 `P3-T01`，实现认证与会话状态
+- 修改范围：`frontend/src/pages/auth/**`、`frontend/src/store/**`、`frontend/src/hooks/**`、`frontend/src/App.tsx`、`frontend/vitest.config.ts`、`docs/agent-team/02_TASK_BACKLOG.md`、`docs/agent-team/03_PROGRESS.md`、`docs/agent-team/06_VALIDATION_REPORT.md`
+- 执行命令：
+- `curl.exe -s -o NUL -w "%{http_code}" http://127.0.0.1:8081/v3/api-docs`
+- `curl.exe -s -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"admin123\"}" http://127.0.0.1:8081/api/auth/login`
+- `curl.exe -s -H "satoken: <token>" http://127.0.0.1:8081/api/auth/me`
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- `npm run test`
+- 结果：通过
+- 失败项：
+- 首轮 `typecheck` / `build` 因 `app-layout.tsx` 中 `MENU_ITEMS` 类型过宽触发空值告警
+- 首轮 `test` 因 `Ant Design` 在 `jsdom` 下缺少 `window.matchMedia`，且 `Vitest` 默认把 `tests/e2e/smoke.spec.ts` 误纳入单测执行而失败
+- 修复动作：
+- 收窄 `MENU_ITEMS` 类型为明确的菜单项数组
+- 在登录页测试中补充 `window.matchMedia` stub
+- 在 `frontend/vitest.config.ts` 中显式排除 `tests/e2e/**`，确保 `npm run test` 只运行 Vitest 单测
+- 登录联调结果：后端 `OpenAPI` 可访问；`admin / admin123` 登录成功，返回 `token` 与 `tokenName=satoken`；携带 `satoken` 后访问 `/api/auth/me` 成功
+- 结论：`P3-T01` 完成；认证与会话状态已具备真实后端登录、会话恢复、失败清理和最小测试覆盖，可进入布局与路由守卫实现

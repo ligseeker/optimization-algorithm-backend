@@ -127,7 +127,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：登录成功后进入系统；失效后自动清理并跳转；表单具备前端校验
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`TODO`
+- 状态：`DONE`
 
 ### P3-T02 实现布局与路由守卫
 
@@ -139,7 +139,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：未登录不可进入业务页；已登录可访问受保护路由；空态与错误态有统一承载
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P4-T01 实现工作空间列表与 CRUD
 
