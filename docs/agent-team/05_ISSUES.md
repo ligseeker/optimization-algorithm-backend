@@ -125,3 +125,12 @@
 - 责任 Agent：Workspace/Graph List Agent
 - 下一步：进入流程图列表与 CRUD
 - 状态：`NO_NEW_ISSUE`
+
+## P4-T02 阻塞检查
+
+- 类型：任务检查记录
+- 现状：流程图列表与 CRUD 开发、检查命令和前端构建均已完成；本任务未新增阻塞项
+- 影响：可继续执行 `P5-T01`
+- 责任 Agent：Workspace/Graph List Agent
+- 下一步：进入任务中心
+- 状态：`NO_NEW_ISSUE`

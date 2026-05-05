@@ -19,14 +19,14 @@
 
 ## 正在执行任务
 
-- `P4-T02` 实现流程图列表与 CRUD
-- 当前执行 Agent：`Workspace/Graph List Agent`
+- `P5-T01` 实现任务中心
+- 当前执行 Agent：`Task/Result Agent`
 
 ## 下一步任务
 
-- `P4-T01` 实现工作空间列表与 CRUD
-- `P4-T02` 实现流程图列表与 CRUD
 - `P5-T01` 实现任务中心
+- `P5-T02` 实现结果页与可视化
+- `P6-T01` 实现 YAML 导入
 - 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
 
 ## 近期里程碑
@@ -54,3 +54,4 @@
 - `P3-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 Zustand 会话状态、登录页、登录恢复、登出清理与最小单测
 - `P3-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成受保护路由、访客路由、主布局、导航菜单、404 页和未授权提示页
 - `P4-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成工作空间列表、搜索、分页、创建、编辑、删除确认和工作空间流程图入口
+- `P4-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成工作空间下流程图列表、搜索、分页、创建、编辑、删除确认、详情入口和编辑器入口

@@ -6,7 +6,8 @@ import AppLayout from '../layouts/app-layout'
 import LoginPage from '../pages/auth/login-page'
 import DashboardPage from '../pages/dashboard-page'
 import GraphEditorPage from '../pages/graph-editor-page'
-import GraphsPage from '../pages/graphs-page'
+import GraphDetailPage from '../pages/graphs/graph-detail-page'
+import GraphsPage from '../pages/graphs/graphs-page'
 import ResultsPage from '../pages/results-page'
 import SettingsPage from '../pages/settings-page'
 import TasksPage from '../pages/tasks-page'
@@ -48,6 +49,14 @@ export const appRouter = createBrowserRouter([
           {
             path: 'graphs',
             element: <GraphsPage />,
+          },
+          {
+            path: 'graphs/:graphId/detail',
+            element: <GraphDetailPage />,
+          },
+          {
+            path: 'graphs/:graphId/editor',
+            element: <GraphEditorPage />,
           },
           {
             path: 'graph-editor',

@@ -207,3 +207,17 @@
 - 失败项：无
 - 修复动作：无
 - 结论：`P4-T01` 完成；工作空间页面已接入 API 层，支持分页、搜索、loading/error/empty、创建、编辑、删除二次确认和跳转 `/workspaces/:workspaceId/graphs`
+
+## Round 13
+
+- 轮次目标：完成 `P4-T02`，实现流程图列表与 CRUD
+- 修改范围：`frontend/src/pages/graphs/**`、`frontend/src/components/graph/**`、`frontend/src/router/**`、`docs/agent-team/**`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- `npm run test`
+- 结果：通过
+- 失败项：无
+- 修复动作：无
+- 结论：`P4-T02` 完成；流程图页面已接入 API 层，支持工作空间上下文、分页、搜索、loading/error/empty、创建、编辑、删除二次确认、详情入口和 `/graphs/:graphId/editor` 入口
