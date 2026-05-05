@@ -170,7 +170,7 @@ function GraphElementFormModal({
               <InputNumber min={0} style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item label="精度" name="precisionValue">
-              <InputNumber min={0} precision={4} style={{ width: '100%' }} />
+              <InputNumber min={0} max={1} precision={4} style={{ width: '100%' }} />
             </Form.Item>
             <Form.Item label="成本" name="costValue">
               <InputNumber min={0} style={{ width: '100%' }} />

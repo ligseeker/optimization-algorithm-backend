@@ -318,3 +318,27 @@
 - 失败项：无
 - 修复动作：无
 - 结论：`P8-T01` 完成；已记录后端启动方式、前端启动方式、环境变量、测试账号 `admin / admin123`、主链路验证步骤和接口问题记录规则
+
+## Round 21
+
+- 轮次目标：完成 `P8-T02`，执行前后端全链路联调
+- 修改范围：`frontend/**`、`docs/frontend/**`、`docs/agent-team/**`
+- 执行命令：
+- `curl http://127.0.0.1:8081/v3/api-docs`
+- PowerShell API 自动化联调脚本
+- `npx playwright install chromium`
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- `npm run test`
+- `npm run test:e2e`
+- 结果：前端质量门禁全部通过；真实 API 主链路除 YAML round-trip 导入外均通过
+- 失败项：
+- YAML 导出后原样导入失败，后端返回 `700001 YAML导入校验失败`，包含 `PRECISION_INVALID` 与 `CONSTRAINT_TYPE_INVALID`
+- 首轮 `npm run test:e2e` 因本机未安装 Playwright Chromium 失败；安装后 smoke 断言因 Ant Design 按钮可访问名含空格失败
+- 修复动作：
+- 已记录 `docs/frontend/FULL_INTEGRATION_REPORT.md`
+- 已记录 `docs/agent-team/07_BACKEND_CHANGE_REQUESTS.md` 中的 `BCR-001`
+- 前端将节点表单 `precisionValue` 限制为 `0-1`
+- Playwright 端口由受限端口切换为 `7777`，并将 smoke 调整为 `/login` 页面断言
+- 结论：`P8-T02` 完成；后端 YAML round-trip 问题已登记但不阻塞前端继续 QA 与文档收口

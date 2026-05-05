@@ -259,7 +259,7 @@
 - 禁止修改文件范围：`src/main/**`，除非用户单独授权修后端缺陷
 - 验收标准：主流程可端到端走通；联调问题有结论、复现方式和归属
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`、`npm run test:e2e`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P9-T01 QA 自动修复循环
 
@@ -271,7 +271,7 @@
 - 禁止修改文件范围：`src/main/**`，除非主控升级范围
 - 验收标准：关键缺陷关闭；回归报告完整；三大质量门禁持续通过
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`、`npm run test:e2e`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P9-T02 执行 Review Gate
 

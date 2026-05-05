@@ -2,8 +2,8 @@
 
 ## 当前阶段
 
-- 阶段名称：`Phase 8 / Integration`
-- 阶段目标：建立联调说明并执行前后端主链路验证
+- 阶段名称：`Phase 9 / QA And Review`
+- 阶段目标：执行完整质量门禁、缺陷修复和 Review Gate
 - 当前状态：`IN_PROGRESS`
 
 ## 已完成任务
@@ -19,14 +19,14 @@
 
 ## 正在执行任务
 
-- `P8-T02` 执行前后端全链路联调
+- `P9-T01` QA 自动修复循环
 - 当前执行 Agent：`QA Agent`
 
 ## 下一步任务
 
-- `P8-T02` 执行前后端全链路联调
 - `P9-T01` QA 自动修复循环
 - `P9-T02` 执行 Review Gate
+- `P10-T01` 完成 README、部署文档与演示说明
 - 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
 
 ## 近期里程碑
@@ -62,3 +62,4 @@
 - `P7-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 `/graphs/:graphId/editor` 基础框架、React Flow 画布、GraphDetail 映射、资源面板和属性面板
 - `P7-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成节点、路径、装备、约束 CRUD 表单、删除二次确认、保存后重取图详情和未保存修改提示
 - `P8-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成前端 README、联调指南和根 README 前端启动说明
+- `P8-T02` 检查结果：真实 API 主链路除 YAML round-trip 导入外均通过；`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`、`npm run test:e2e` 全部通过；YAML 导出后再导入失败已记录 `BCR-001`

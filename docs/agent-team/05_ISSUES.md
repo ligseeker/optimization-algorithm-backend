@@ -197,3 +197,22 @@
 - 责任 Agent：Documentation Agent
 - 下一步：进入前后端全链路联调
 - 状态：`NO_NEW_ISSUE`
+
+## I-014 YAML 导出后再次导入失败
+
+- 类型：后端接口契约问题
+- 现状：`P8-T02` 中导出 `graphId=9` 得到 YAML 后，使用 `/api/import/graphs` 原样导入失败，后端返回 `700001 YAML导入校验失败`
+- 实际响应：包含 `PRECISION_INVALID` 和 `CONSTRAINT_TYPE_INVALID`，其中 `ConstraintConditions[0].conditionType` 为 `NORMAL` 但导入校验认为非法
+- 影响：YAML 导出和导入单独功能可接入，但导出文件不能保证 round-trip 导入
+- 责任 Agent：Backend Issue Agent
+- 下一步：已记录 `BCR-001`；前端已将节点精度输入限制为 `0-1`，后端仍需统一导入/导出枚举映射
+- 状态：`OPEN`
+
+## P8-T02 阻塞检查
+
+- 类型：任务检查记录
+- 现状：全链路联调已执行，除 YAML 导出后原样导入失败外，登录、当前用户、工作空间、流程图、装备、节点、路径、约束、图详情、优化任务、任务状态、结果查询、YAML 导出和退出登录均通过
+- 影响：YAML round-trip 问题不阻塞后续前端 QA 与文档收口；后端修改需用户授权
+- 责任 Agent：QA Agent / Backend Issue Agent
+- 下一步：进入 `P9-T01`，继续运行完整质量门禁
+- 状态：`KNOWN_BACKEND_ISSUE`
