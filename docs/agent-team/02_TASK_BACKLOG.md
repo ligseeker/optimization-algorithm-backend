@@ -79,7 +79,7 @@
 - 禁止修改文件范围：`src/**`
 - 验收标准：基础依赖安装完毕；`VITE_API_BASE_URL` 生效；脚本可运行
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P2-T01 建立 HTTP Client 与鉴权拦截
 

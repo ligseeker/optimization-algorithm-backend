@@ -68,3 +68,15 @@ select {
   max-width: 56ch;
   color: #4f6177;
 }
+
+.page-placeholder {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.page-placeholder .ant-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

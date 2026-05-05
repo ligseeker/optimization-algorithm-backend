@@ -104,3 +104,17 @@
 - 失败项：无
 - 修复动作：无
 - 结论：`P1-T01` 完成；已在空 `frontend/` 目录中建立 React 18 + TypeScript + Vite 基础骨架，补齐 `typecheck` 脚本与基础目录，占位环境变量已写入
+
+## Round 6
+
+- 轮次目标：完成 `P1-T02`，建立工程基础设施
+- 修改范围：`frontend/**`、`docs/agent-team/02_TASK_BACKLOG.md`、`docs/agent-team/03_PROGRESS.md`
+- 执行命令：
+- `npm install`
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- 结果：通过
+- 失败项：首轮 `typecheck` / `build` 因 `dashboard-page.test.tsx` 缺少 `vitest` 全局导入而失败
+- 修复动作：为测试文件显式补充 `describe`、`it`、`expect` 导入后重跑通过
+- 结论：`P1-T02` 完成；前端基础布局、路由、占位页面、状态骨架、测试脚本和测试配置已建立，可进入 API 层开发阶段

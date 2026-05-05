@@ -2,8 +2,8 @@
 
 ## 当前阶段
 
-- 阶段名称：`Phase 1 / Frontend Scaffold`
-- 阶段目标：在现有 `frontend/` 目录基础上建立可运行的前端工程骨架与基础设施
+- 阶段名称：`Phase 2 / API Layer Preparation`
+- 阶段目标：基于既有骨架开始搭建 API 层、类型层和鉴权请求基础设施
 - 当前状态：`READY`
 
 ## 已完成任务
@@ -15,16 +15,18 @@
 - `P0-T02` 已完成：输出 `docs/frontend/API_CONTRACT.md`，建立前端目标接口白名单与 legacy 兼容接口清单
 - `P0-T03` 已完成：确认 OpenAPI / Swagger 可访问、应用可启动、Sa-Token 读取策略与联调前置阻塞项
 - `P1-T01` 已完成：在现有空 `frontend/` 目录中建立 Vite + React 18 + TypeScript 骨架，并通过安装、类型检查、Lint 与构建验证
+- `P1-T02` 已完成：补齐 React Router、TanStack Query、Zustand、Ant Design、测试脚本、基础布局、占位页面与路由结构
 
 ## 正在执行任务
 
-- `P1-T02` 建立工程基础设施
-- 当前执行 Agent：`Frontend Scaffold Agent`
+- 当前阶段任务已全部完成
+- 当前无进行中任务
 
 ## 下一步任务
 
 - `P2-T01` 建立 HTTP Client 与鉴权拦截
 - `P2-T02` 建立领域类型定义
+- `P2-T03` 建立领域 API 模块
 - 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
 
 ## 近期里程碑
@@ -44,3 +46,4 @@
 - `P0-T03` 检查结果：原始 `mvn spring-boot:run` 因 `8081` 被现有实例占用而失败，经最小修复改用临时 `8082` 启动验证成功；`Swagger UI` 可访问
 - 用户已补充测试账号，且 8081 占用已解除，Phase 0 的外部阻塞已清除
 - `P1-T01` 检查结果：`npm install`、`npm run typecheck`、`npm run lint`、`npm run build` 全部通过
+- `P1-T02` 检查结果：`npm install`、`npm run typecheck`、`npm run lint`、`npm run build` 通过；仅做了一次测试文件类型导入修复
