@@ -8,6 +8,7 @@ import DashboardPage from '../pages/dashboard-page'
 import GraphEditorPage from '../pages/graph-editor-page'
 import GraphDetailPage from '../pages/graphs/graph-detail-page'
 import GraphsPage from '../pages/graphs/graphs-page'
+import OptimizeResultPage from '../pages/results/optimize-result-page'
 import ResultsPage from '../pages/results-page'
 import SettingsPage from '../pages/settings-page'
 import TaskDetailPage from '../pages/tasks/task-detail-page'
@@ -70,6 +71,10 @@ export const appRouter = createBrowserRouter([
           {
             path: 'tasks/:taskId',
             element: <TaskDetailPage />,
+          },
+          {
+            path: 'tasks/:taskId/result',
+            element: <OptimizeResultPage />,
           },
           {
             path: 'results',

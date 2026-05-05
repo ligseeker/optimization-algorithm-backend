@@ -187,7 +187,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：成功、失败、空结果均可展示；结果结构与后端保持一致
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P6-T01 实现 YAML 导入
 
@@ -199,7 +199,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：支持 multipart 上传；错误报告可视化；页面状态完整
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P6-T02 实现 YAML 导出
 

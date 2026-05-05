@@ -235,3 +235,17 @@
 - 失败项：首轮 `typecheck` / `build` 因任务状态筛选值被推断为普通 `string` 而失败
 - 修复动作：将任务状态筛选收窄为 `TaskStatusFilter`，确保查询参数与 `OptimizeTaskQueryRequest.taskStatus` 类型一致
 - 结论：`P5-T01` 完成；任务中心已支持分页列表、workspaceId / graphId / taskStatus 筛选、任务提交、运行态轮询、详情查看、失败重试和成功结果入口
+
+## Round 15
+
+- 轮次目标：完成 `P5-T02`，实现结果页与可视化
+- 修改范围：`frontend/src/pages/results/**`、`frontend/src/components/results/**`、`frontend/src/router/**`、`docs/agent-team/**`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- `npm run test`
+- 结果：通过
+- 失败项：首轮 `npm run test` 因结果页测试未等待异步查询完成而失败
+- 修复动作：将测试断言改为等待 `优化结果` 标题出现后再校验结果内容；未修改业务逻辑
+- 结论：`P5-T02` 完成；结果页会先确认任务状态，未成功任务显示清晰提示，成功任务展示基础信息、优化前后指标、ECharts 对比图、`resultGraph` / `diff` / `mapCode` 安全代码块
