@@ -6,6 +6,7 @@ import {
   ReloadOutlined,
   SearchOutlined,
   ThunderboltOutlined,
+  UploadOutlined,
 } from '@ant-design/icons'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
@@ -33,6 +34,7 @@ import {
 import { getWorkspaceDetail } from '../../api/workspace'
 import GraphFormModal from '../../components/graph/graph-form-modal'
 import type { GraphFormValues } from '../../components/graph/graph-form-modal'
+import GraphYamlImportModal from '../../components/import-export/graph-yaml-import-modal'
 import { useDebouncedValue } from '../../hooks/use-debounced-value'
 import { useDocumentTitle } from '../../hooks/use-document-title'
 import type { GraphVO } from '../../types/graph'
@@ -63,6 +65,7 @@ function GraphsPage() {
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE)
   const [editingGraph, setEditingGraph] = useState<GraphVO | null>(null)
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const [isImportOpen, setIsImportOpen] = useState(false)
 
   const workspaceQuery = useQuery({
     queryKey: ['workspace', workspaceId],
@@ -330,6 +333,9 @@ function GraphsPage() {
           </div>
           <Space>
             <Button onClick={() => navigate('/workspaces')}>返回工作空间</Button>
+            <Button icon={<UploadOutlined />} onClick={() => setIsImportOpen(true)}>
+              导入 YAML
+            </Button>
             <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
               新建流程图
             </Button>
@@ -422,6 +428,14 @@ function GraphsPage() {
           setEditingGraph(null)
         }}
         onSubmit={handleSubmit}
+      />
+      <GraphYamlImportModal
+        open={isImportOpen}
+        workspaceId={workspaceId}
+        onCancel={() => setIsImportOpen(false)}
+        onSuccess={async () => {
+          await refreshGraphs()
+        }}
       />
     </>
   )

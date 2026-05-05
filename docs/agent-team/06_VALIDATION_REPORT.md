@@ -249,3 +249,17 @@
 - 失败项：首轮 `npm run test` 因结果页测试未等待异步查询完成而失败
 - 修复动作：将测试断言改为等待 `优化结果` 标题出现后再校验结果内容；未修改业务逻辑
 - 结论：`P5-T02` 完成；结果页会先确认任务状态，未成功任务显示清晰提示，成功任务展示基础信息、优化前后指标、ECharts 对比图、`resultGraph` / `diff` / `mapCode` 安全代码块
+
+## Round 16
+
+- 轮次目标：完成 `P6-T01`，实现 YAML 导入
+- 修改范围：`frontend/src/components/import-export/**`、`frontend/src/pages/graphs/**`、`docs/agent-team/**`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- `npm run test`
+- 结果：通过
+- 失败项：首轮 `npm run lint` 因弹窗组件在 effect 中同步清理 state 触发 React Hooks 规则而失败
+- 修复动作：将弹窗关闭清理移动到 `handleCancel`，避免 effect 中同步 setState；随后重跑 `lint`、`typecheck`、`build`、`test` 全部通过
+- 结论：`P6-T01` 完成；流程图列表已支持 YAML 文件导入，导入组件校验 `.yaml / .yml` 文件、展示 loading / success / error 状态，并在成功后刷新流程图列表

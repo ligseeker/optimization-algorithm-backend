@@ -32,6 +32,10 @@ vi.mock('../../api/workspace', () => ({
   ),
 }))
 
+vi.mock('../../api/yaml', () => ({
+  importGraphYaml: vi.fn(),
+}))
+
 function renderWithProviders() {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -72,6 +76,7 @@ describe('GraphsPage', () => {
 
     expect(screen.getByRole('heading', { name: '流程图' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /新建流程图/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /导入 YAML/ })).toBeInTheDocument()
     expect(await screen.findByText('暂无流程图')).toBeInTheDocument()
   })
 })
