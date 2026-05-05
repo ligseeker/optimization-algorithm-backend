@@ -179,3 +179,17 @@
 - 在 `frontend/vitest.config.ts` 中显式排除 `tests/e2e/**`，确保 `npm run test` 只运行 Vitest 单测
 - 登录联调结果：后端 `OpenAPI` 可访问；`admin / admin123` 登录成功，返回 `token` 与 `tokenName=satoken`；携带 `satoken` 后访问 `/api/auth/me` 成功
 - 结论：`P3-T01` 完成；认证与会话状态已具备真实后端登录、会话恢复、失败清理和最小测试覆盖，可进入布局与路由守卫实现
+
+## Round 11
+
+- 轮次目标：完成 `P3-T02`，实现布局与路由守卫
+- 修改范围：`frontend/src/layouts/**`、`frontend/src/router/**`、`frontend/src/components/app/**`、`frontend/src/components/common/**`、`docs/agent-team/02_TASK_BACKLOG.md`、`docs/agent-team/03_PROGRESS.md`、`docs/agent-team/06_VALIDATION_REPORT.md`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- 结果：通过
+- 失败项：无
+- 修复动作：无
+- 登录联调结果：沿用 Round 10 的后端实测结果，路由守卫和布局逻辑已基于真实 `satoken` 会话模型落地
+- 结论：`P3-T02` 完成；未登录访问业务路由会跳转 `/login`，已登录访问 `/login` 会回到 `/dashboard`，刷新时会先显示 session restoring 状态，不会误跳转

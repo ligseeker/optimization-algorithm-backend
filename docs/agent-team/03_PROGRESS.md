@@ -4,7 +4,7 @@
 
 - 阶段名称：`Phase 3 / Auth And Routing`
 - 阶段目标：完成认证、会话恢复、受保护路由、应用布局与基础异常页
-- 当前状态：`IN_PROGRESS`
+- 当前状态：`COMPLETED`
 
 ## 已完成任务
 
@@ -19,14 +19,12 @@
 
 ## 正在执行任务
 
-- `P3-T02` 实现布局与路由守卫
-- 当前执行 Agent：`Auth/Layout Agent`
+- 当前无进行中任务
 
 ## 下一步任务
 
-- `P3-T01` 实现认证与会话状态
-- `P3-T02` 实现布局与路由守卫
 - `P4-T01` 实现工作空间列表与 CRUD
+- `P4-T02` 实现流程图列表与 CRUD
 - 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
 
 ## 近期里程碑
@@ -52,3 +50,4 @@
 - `P2-T03` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成新领域 API 模块、YAML multipart 导入/JSON 导出封装，以及 legacy 兼容接口隔离
 - `2026-05-05` 联调基线复核：`curl http://127.0.0.1:8081/v3/api-docs` 返回 `200`；`admin / admin123` 登录成功并返回 `token`、`tokenName=satoken`；携带 `satoken` 可访问 `/api/auth/me`
 - `P3-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 Zustand 会话状态、登录页、登录恢复、登出清理与最小单测
+- `P3-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成受保护路由、访客路由、主布局、导航菜单、404 页和未授权提示页
