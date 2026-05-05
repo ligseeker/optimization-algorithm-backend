@@ -73,6 +73,25 @@
 mvn spring-boot:run
 ```
 
+## 前端启动方式
+前端工程位于 `frontend/`，默认连接本地后端 `http://127.0.0.1:8081`。
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+前端质量检查：
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+```
+
+前后端联调说明见 `docs/frontend/INTEGRATION_GUIDE.md`。
+
 ## Docker Compose 启动方式
 仓库当前未内置 `docker-compose.yml`，可先使用以下示例创建：
 ```yaml
@@ -97,10 +116,11 @@ docker compose up -d
 ```
 
 ## 默认测试账号
-请在 `sys_user` 表中自行插入测试账号（密码需使用 `PasswordUtils` 生成哈希）。  
-示例角色：
-- `ADMIN`
-- `USER`
+当前本地联调基线账号：
+- username：`admin`
+- password：`admin123`
+
+如重新初始化数据库后账号不存在，请在 `sys_user` 表中插入测试账号（密码需使用 `PasswordUtils` 生成哈希）。
 
 ## OpenAPI 地址
 - Swagger UI：`http://127.0.0.1:8081/swagger-ui.html`

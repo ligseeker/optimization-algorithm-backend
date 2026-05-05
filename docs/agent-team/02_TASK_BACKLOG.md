@@ -247,7 +247,7 @@
 - 禁止修改文件范围：`src/main/**`
 - 验收标准：新成员可按文档启动前后端并完成基本联调
 - 需要运行的检查命令：`mvn spring-boot:run`、`npm run dev`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P8-T02 执行前后端全链路联调
 
@@ -259,7 +259,7 @@
 - 禁止修改文件范围：`src/main/**`，除非用户单独授权修后端缺陷
 - 验收标准：主流程可端到端走通；联调问题有结论、复现方式和归属
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`、`npm run test:e2e`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P9-T01 QA 自动修复循环
 

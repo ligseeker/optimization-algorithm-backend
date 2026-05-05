@@ -1,73 +1,53 @@
-# React + TypeScript + Vite
+# Optimization Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 项目定位
 
-Currently, two official plugins are available:
+本目录是 `optimization-algorithm-backend` 的前端系统，面向流程优化任务管理场景，提供登录、工作空间、流程图、任务中心、结果展示、YAML 导入导出和流程图编辑器能力。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 技术栈
 
-## React Compiler
+- React 18 + TypeScript + Vite
+- Ant Design
+- React Router
+- TanStack Query
+- Zustand
+- Axios
+- React Flow
+- ECharts
+- Vitest
+- Playwright
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 本地开发
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+默认开发环境变量位于 `.env.development`：
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_BASE_URL=http://127.0.0.1:8081
 ```
+
+不要在页面或组件中硬编码后端地址；所有接口请求都必须通过 `src/api/**`。
+
+## 常用命令
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+npm run test
+npm run test:e2e
+```
+
+## 联调基线
+
+- 后端地址：`http://127.0.0.1:8081`
+- OpenAPI：`http://127.0.0.1:8081/v3/api-docs`
+- 测试账号：`admin / admin123`
+- 登录态请求头：`satoken: <token>`
+
+完整联调步骤见 `../docs/frontend/INTEGRATION_GUIDE.md`。

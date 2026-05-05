@@ -188,3 +188,12 @@
 - 责任 Agent：Graph Editor Agent
 - 下一步：进入联调环境与脚本说明
 - 状态：`NO_NEW_ISSUE`
+
+## P8-T01 阻塞检查
+
+- 类型：任务检查记录
+- 现状：联调环境与脚本文档已完成；本任务未新增阻塞项
+- 影响：可继续执行 `P8-T02`
+- 责任 Agent：Documentation Agent
+- 下一步：进入前后端全链路联调
+- 状态：`NO_NEW_ISSUE`
