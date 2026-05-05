@@ -4,7 +4,7 @@
 
 - 阶段名称：`Phase 2 / API Layer Preparation`
 - 阶段目标：基于既有骨架开始搭建 API 层、类型层和鉴权请求基础设施
-- 当前状态：`IN_PROGRESS`
+- 当前状态：`COMPLETED`
 
 ## 已完成任务
 
@@ -19,14 +19,12 @@
 
 ## 正在执行任务
 
-- `P2-T03` 建立领域 API 模块
-- 当前执行 Agent：`API Agent`
+- 当前无进行中任务
 
 ## 下一步任务
 
-- `P2-T02` 建立领域类型定义
-- `P2-T03` 建立领域 API 模块
 - `P3-T01` 实现认证与会话状态
+- `P3-T02` 实现布局与路由守卫
 - 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
 
 ## 近期里程碑
@@ -49,3 +47,4 @@
 - `P1-T02` 检查结果：`npm install`、`npm run typecheck`、`npm run lint`、`npm run build` 通过；仅做了一次测试文件类型导入修复
 - `P2-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成统一 Axios 客户端、`satoken` 请求头注入、统一 `ApiError` 与登录失效跳转处理
 - `P2-T02` 检查结果：`npm run typecheck`、`npm run lint` 全部通过；已按 `API_CONTRACT.md` 建立 auth/workspace/graph/node/path/equipment/constraint/optimize-task/yaml/operation-log 类型文件，并将不透明返回结构保守标记为 `unknown`
+- `P2-T03` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成新领域 API 模块、YAML multipart 导入/JSON 导出封装，以及 legacy 兼容接口隔离
