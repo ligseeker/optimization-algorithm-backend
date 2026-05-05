@@ -19,7 +19,7 @@
 
 ## 正在执行任务
 
-- `P2-T02` 建立领域类型定义
+- `P2-T03` 建立领域 API 模块
 - 当前执行 Agent：`API Agent`
 
 ## 下一步任务
@@ -48,3 +48,4 @@
 - `P1-T01` 检查结果：`npm install`、`npm run typecheck`、`npm run lint`、`npm run build` 全部通过
 - `P1-T02` 检查结果：`npm install`、`npm run typecheck`、`npm run lint`、`npm run build` 通过；仅做了一次测试文件类型导入修复
 - `P2-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成统一 Axios 客户端、`satoken` 请求头注入、统一 `ApiError` 与登录失效跳转处理
+- `P2-T02` 检查结果：`npm run typecheck`、`npm run lint` 全部通过；已按 `API_CONTRACT.md` 建立 auth/workspace/graph/node/path/equipment/constraint/optimize-task/yaml/operation-log 类型文件，并将不透明返回结构保守标记为 `unknown`

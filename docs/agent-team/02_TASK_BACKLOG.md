@@ -103,7 +103,7 @@
 - 禁止修改文件范围：`frontend/src/pages/**`、`src/**`
 - 验收标准：类型命名清晰；请求/响应/分页/错误结构完整；与契约文档一致
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P2-T03 建立领域 API 模块
 
@@ -115,7 +115,7 @@
 - 禁止修改文件范围：`frontend/src/pages/**`、`src/**`
 - 验收标准：新接口按领域拆分；legacy 仅在 `legacyAlgorithm.ts`；页面无需直接写 axios
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P3-T01 实现认证与会话状态
 

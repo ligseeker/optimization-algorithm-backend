@@ -131,3 +131,15 @@
 - 失败项：无
 - 修复动作：无
 - 结论：`P2-T01` 完成；统一请求客户端已接入 `VITE_API_BASE_URL`、`satoken` 头注入、业务错误标准化和 401 / `401001` 会话清理跳转逻辑
+
+## Round 8
+
+- 轮次目标：完成 `P2-T02`，建立领域类型定义
+- 修改范围：`frontend/src/types/**`、`docs/agent-team/02_TASK_BACKLOG.md`、`docs/agent-team/03_PROGRESS.md`、`docs/agent-team/06_VALIDATION_REPORT.md`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- 结果：通过
+- 失败项：无
+- 修复动作：无
+- 结论：`P2-T02` 完成；领域类型已与 `API_CONTRACT.md` 对齐，`OptimizeResultVO.resultGraph` / `diff` 和 `operation-log` 这类未明确结构已保守处理，避免伪造字段

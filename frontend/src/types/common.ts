@@ -19,6 +19,7 @@ export type PageQuery = {
 }
 
 export type EntityStatus = 0 | 1
+export type EnabledStatus = 0 | 1
 
 export type TaskStatus = 'PENDING' | 'RUNNING' | 'SUCCESS' | 'FAILED' | 'ALL'
 
