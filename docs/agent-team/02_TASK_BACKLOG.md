@@ -295,7 +295,7 @@
 - 禁止修改文件范围：`src/main/**`
 - 验收标准：文档覆盖开发环境、部署方式、联调方法、演示流程、已知限制
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ## 推荐执行顺序
 

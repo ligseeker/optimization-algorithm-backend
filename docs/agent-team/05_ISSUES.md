@@ -234,3 +234,12 @@
 - 责任 Agent：Review Agent
 - 下一步：进入 README、部署文档与演示说明
 - 状态：`NO_NEW_ISSUE`
+
+## P10-T01 阻塞检查
+
+- 类型：任务检查记录
+- 现状：README、部署文档、演示说明和前端摘要均已完成；本任务未新增阻塞项
+- 影响：`P4-T01` 到 `P10-T01` 已全部完成
+- 责任 Agent：Documentation Agent
+- 下一步：如用户授权，可由 Backend Patch Agent 处理 `BCR-001`
+- 状态：`NO_NEW_ISSUE`

@@ -51,3 +51,21 @@ npm run test:e2e
 - 登录态请求头：`satoken: <token>`
 
 完整联调步骤见 `../docs/frontend/INTEGRATION_GUIDE.md`。
+
+## 主要页面
+
+- `/login`：登录页
+- `/dashboard`：系统首页
+- `/workspaces`：工作空间列表与 CRUD
+- `/workspaces/:workspaceId/graphs`：流程图列表、YAML 导入导出
+- `/graphs/:graphId/detail`：流程图详情
+- `/graphs/:graphId/editor`：React Flow 编辑器与图元 CRUD
+- `/tasks`：任务中心
+- `/tasks/:taskId`：任务详情与状态轮询
+- `/tasks/:taskId/result`：优化结果与指标可视化
+
+## 已知限制
+
+- YAML 导出后原样导入存在后端 round-trip 契约问题，见 `../docs/agent-team/07_BACKEND_CHANGE_REQUESTS.md`。
+- React Flow 第一版不保存拖拽布局。
+- `resultGraph` 和 `diff` 以安全 JSON 方式展示。

@@ -90,7 +90,11 @@ npm run lint
 npm run build
 ```
 
-前后端联调说明见 `docs/frontend/INTEGRATION_GUIDE.md`。
+前端相关文档：
+- 联调说明：`docs/frontend/INTEGRATION_GUIDE.md`
+- 演示流程：`docs/frontend/DEMO_FLOW.md`
+- 部署说明：`docs/frontend/DEPLOYMENT.md`
+- 前端摘要：`docs/frontend/FRONTEND_SUMMARY_FOR_RESUME.md`
 
 ## Docker Compose 启动方式
 仓库当前未内置 `docker-compose.yml`，可先使用以下示例创建：

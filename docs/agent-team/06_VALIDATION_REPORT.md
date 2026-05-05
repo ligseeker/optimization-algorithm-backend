@@ -372,3 +372,16 @@
 - 失败项：Review 发现登录页网络错误提示硬编码 `http://127.0.0.1:8081`
 - 修复动作：改为读取 `import.meta.env.VITE_API_BASE_URL`，并重跑 `typecheck`、`lint`、`build` 通过
 - 结论：`P9-T02` 完成；Review Gate 通过，唯一保留问题为后端 `BCR-001`
+
+## Round 24
+
+- 轮次目标：完成 `P10-T01`，沉淀 README、部署文档与演示说明
+- 修改范围：`README.md`、`frontend/README.md`、`docs/frontend/**`、`docs/agent-team/**`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- 结果：通过
+- 失败项：无
+- 修复动作：无
+- 结论：`P10-T01` 完成；已补齐前端页面说明、联调/演示/部署文档和简历摘要，文档明确保留 `BCR-001` 的后端限制边界
