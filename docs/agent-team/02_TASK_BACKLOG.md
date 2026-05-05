@@ -223,7 +223,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：能加载 `graph detail` 数据并映射为画布；页面状态完整；结构可扩展
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P7-T02 实现图元 CRUD 与编辑交互
 
@@ -235,7 +235,7 @@
 - 禁止修改文件范围：`frontend/src/api/**`、`src/**`
 - 验收标准：所有图元操作通过 API 层完成；删除二次确认；表单校验完整
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P8-T01 建立联调环境与脚本
 

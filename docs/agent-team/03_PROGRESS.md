@@ -19,14 +19,14 @@
 
 ## 正在执行任务
 
-- `P7-T01` 实现流程图编辑器基础框架
+- `P7-T02` 实现图元 CRUD 与编辑交互
 - 当前执行 Agent：`Graph Editor Agent`
 
 ## 下一步任务
 
-- `P7-T01` 实现流程图编辑器基础框架
 - `P7-T02` 实现图元 CRUD 与编辑交互
 - `P8-T01` 建立联调环境与脚本
+- `P8-T02` 执行前后端全链路联调
 - 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
 
 ## 近期里程碑
@@ -59,3 +59,4 @@
 - `P5-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 `/tasks/:taskId/result` 结果页、任务状态前置判断、指标对比图、Result Graph / Diff / mapCode 安全展示
 - `P6-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 YAML 导入弹窗、文件类型校验、multipart 上传、成功统计展示、结构化错误展示和导入后刷新流程图列表
 - `P6-T02` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 YAML 导出按钮、JSON 响应读取、`yamlContent` 转 Blob 下载和默认文件名兜底
+- `P7-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test` 全部通过；已完成 `/graphs/:graphId/editor` 基础框架、React Flow 画布、GraphDetail 映射、资源面板和属性面板
