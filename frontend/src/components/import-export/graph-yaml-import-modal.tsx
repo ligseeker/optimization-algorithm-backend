@@ -112,6 +112,7 @@ function GraphYamlImportModal({
     <Modal
       title="导入 YAML 流程图"
       open={open}
+      forceRender
       okText="导入"
       cancelText="取消"
       confirmLoading={importMutation.isPending}

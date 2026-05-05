@@ -101,17 +101,30 @@ function OptimizeResultPage() {
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Space align="start" style={{ justifyContent: 'space-between', width: '100%' }}>
-        <div>
-          <Typography.Title level={2} style={{ margin: 0 }}>
+      <section className="console-hero">
+        <div className="console-hero-copy">
+          <span className="console-kicker">Result Analysis</span>
+          <Typography.Title level={2} className="console-title">
             优化结果
           </Typography.Title>
-          <Space>
-            <Typography.Text type="secondary">任务：{task.taskNo}</Typography.Text>
-            <TaskStatusTag status={task.taskStatus} />
-          </Space>
+          <Typography.Paragraph className="console-subtitle">
+            聚合展示任务基线、优化后指标、差异结构和 mapCode。结果页的重点是帮助判断这次优化是否值得继续落地。
+          </Typography.Paragraph>
         </div>
-        <Space>
+        <div className="console-hero-meta">
+          <div className="console-meta-chip">
+            <span className="console-meta-label">Task</span>
+            <strong>{task.taskNo}</strong>
+          </div>
+          <div className="console-meta-chip">
+            <span className="console-meta-label">Status</span>
+            <TaskStatusTag status={task.taskStatus} />
+          </div>
+        </div>
+      </section>
+
+      <div className="console-toolbar">
+        <div className="console-toolbar-group">
           <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(`/tasks/${task.id}`)}>
             返回任务详情
           </Button>
@@ -125,8 +138,8 @@ function OptimizeResultPage() {
           >
             刷新
           </Button>
-        </Space>
-      </Space>
+        </div>
+      </div>
 
       {!isTaskSuccess ? (
         <Alert
@@ -166,7 +179,7 @@ function OptimizeResultPage() {
 
       {resultQuery.data ? (
         <>
-          <Card>
+          <Card className="console-panel">
             <Descriptions bordered column={2}>
               <Descriptions.Item label="结果 ID">{resultQuery.data.id}</Descriptions.Item>
               <Descriptions.Item label="结果名称">{resultQuery.data.resultName}</Descriptions.Item>
@@ -179,7 +192,7 @@ function OptimizeResultPage() {
 
           <Row gutter={[16, 16]}>
             <Col xs={24} md={8}>
-              <Card>
+              <Card className="console-stat-card">
                 <Statistic
                   title="总耗时"
                   value={resultQuery.data.totalTimeAfter}
@@ -188,7 +201,7 @@ function OptimizeResultPage() {
               </Card>
             </Col>
             <Col xs={24} md={8}>
-              <Card>
+              <Card className="console-stat-card">
                 <Statistic
                   title="总精度"
                   value={resultQuery.data.totalPrecisionAfter}
@@ -197,7 +210,7 @@ function OptimizeResultPage() {
               </Card>
             </Col>
             <Col xs={24} md={8}>
-              <Card>
+              <Card className="console-stat-card">
                 <Statistic
                   title="总成本"
                   value={resultQuery.data.totalCostAfter}
@@ -206,25 +219,32 @@ function OptimizeResultPage() {
               </Card>
             </Col>
             <Col xs={24} md={8}>
-              <Card>
+              <Card className="console-stat-card">
                 <Statistic title="综合评分比例" value={resultQuery.data.scoreRatio} />
               </Card>
             </Col>
           </Row>
 
-          <Card title="指标对比">
+          <Alert
+            type="success"
+            showIcon
+            message="结果摘要"
+            description={`综合评分比例 ${resultQuery.data.scoreRatio}，总耗时从 ${resultQuery.data.totalTimeBefore} 变为 ${resultQuery.data.totalTimeAfter}，总成本从 ${resultQuery.data.totalCostBefore} 变为 ${resultQuery.data.totalCostAfter}。`}
+          />
+
+          <Card className="console-panel" title="指标对比">
             <MetricComparisonChart result={resultQuery.data} />
           </Card>
 
-          <Card title="Result Graph">
+          <Card className="console-panel console-json-card" title="Result Graph">
             <JsonCodeBlock value={resultQuery.data.resultGraph} />
           </Card>
 
-          <Card title="Diff">
+          <Card className="console-panel console-json-card" title="Diff">
             <JsonCodeBlock value={resultQuery.data.diff} />
           </Card>
 
-          <Card title="Map Code">
+          <Card className="console-panel console-json-card" title="Map Code">
             <JsonCodeBlock value={resultQuery.data.mapCode} emptyText="暂无 mapCode" />
           </Card>
         </>

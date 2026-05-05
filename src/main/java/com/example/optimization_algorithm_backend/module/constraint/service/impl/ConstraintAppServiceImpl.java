@@ -15,6 +15,7 @@ import com.example.optimization_algorithm_backend.module.constraint.dto.Constrai
 import com.example.optimization_algorithm_backend.module.constraint.dto.CreateConstraintRequest;
 import com.example.optimization_algorithm_backend.module.constraint.dto.UpdateConstraintRequest;
 import com.example.optimization_algorithm_backend.module.constraint.service.ConstraintAppService;
+import com.example.optimization_algorithm_backend.module.constraint.support.ConstraintTypeSupport;
 import com.example.optimization_algorithm_backend.module.constraint.vo.ConstraintVO;
 import com.example.optimization_algorithm_backend.module.graph.service.GraphVersionService;
 import org.springframework.beans.factory.ObjectProvider;
@@ -51,6 +52,7 @@ public class ConstraintAppServiceImpl implements ConstraintAppService {
     public ConstraintVO createConstraint(Long graphId, CreateConstraintRequest request) {
         resourceAccessService.getAccessibleGraph(graphId);
         String conditionCode = request.getConditionCode().trim();
+        String conditionType = ConstraintTypeSupport.normalizeRequestType(request.getConditionType());
         ensureConditionCodeUnique(graphId, conditionCode, null);
         validateNodeExists(graphId, request.getNodeId1(), "约束关联节点1不存在");
         validateNodeExists(graphId, request.getNodeId2(), "约束关联节点2不存在");
@@ -58,7 +60,7 @@ public class ConstraintAppServiceImpl implements ConstraintAppService {
         ConstraintConditionEntity entity = new ConstraintConditionEntity();
         entity.setGraphId(graphId);
         entity.setConditionCode(conditionCode);
-        entity.setConditionType(request.getConditionType().trim());
+        entity.setConditionType(conditionType);
         entity.setConditionDescription(request.getConditionDescription());
         entity.setNodeId1(request.getNodeId1());
         entity.setNodeId2(request.getNodeId2());
@@ -95,6 +97,7 @@ public class ConstraintAppServiceImpl implements ConstraintAppService {
     public ConstraintVO updateConstraint(Long graphId, Long constraintId, UpdateConstraintRequest request) {
         ConstraintConditionEntity constraint = getConstraintInGraph(graphId, constraintId);
         String conditionCode = request.getConditionCode().trim();
+        String conditionType = ConstraintTypeSupport.normalizeRequestType(request.getConditionType());
         if (!Objects.equals(constraint.getConditionCode(), conditionCode)) {
             ensureConditionCodeUnique(graphId, conditionCode, constraintId);
         }
@@ -102,7 +105,7 @@ public class ConstraintAppServiceImpl implements ConstraintAppService {
         validateNodeExists(graphId, request.getNodeId2(), "约束关联节点2不存在");
 
         constraint.setConditionCode(conditionCode);
-        constraint.setConditionType(request.getConditionType().trim());
+        constraint.setConditionType(conditionType);
         constraint.setConditionDescription(request.getConditionDescription());
         constraint.setNodeId1(request.getNodeId1());
         constraint.setNodeId2(request.getNodeId2());

@@ -385,3 +385,29 @@
 - 失败项：无
 - 修复动作：无
 - 结论：`P10-T01` 完成；已补齐前端页面说明、联调/演示/部署文档和简历摘要，文档明确保留 `BCR-001` 的后端限制边界
+
+## Round 25
+
+- 轮次目标：实现 `BCR-001` 后端修复、执行浏览器主链路复测，并完成工业控制台风格优化
+- 修改范围：
+- 后端：`src/main/java/**/node/**`、`src/main/java/**/constraint/**`、`src/main/java/**/yaml/**`、`src/test/java/**`
+- 前端：`frontend/src/App.tsx`、`frontend/src/index.css`、`frontend/src/layouts/**`、`frontend/src/pages/**`、`frontend/src/components/**`、`frontend/tests/e2e/**`、`frontend/playwright.config.ts`
+- 文档：`docs/frontend/API_CONTRACT.md`、`docs/agent-team/03_PROGRESS.md`、`docs/agent-team/05_ISSUES.md`、`docs/agent-team/06_VALIDATION_REPORT.md`、`docs/agent-team/07_BACKEND_CHANGE_REQUESTS.md`
+- 执行命令：
+- `mvn -q -DskipTests compile`
+- `mvn -q "-Dtest=GraphYamlServiceImplTest,NodePathConstraintCrudTest" test`
+- 隔离后端验证：`mvn spring-boot:run -Dspring-boot.run.jvmArguments=-Dserver.port=8083`
+- 运行态接口复测：PowerShell API round-trip 脚本（登录、创建工作空间/流程图、导出 YAML、原样导入、清理数据）
+- 前端质量门禁：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`、`npm run test:e2e`
+- 结果：通过
+- 失败项：
+- 浏览器 E2E 首轮尝试在显式注入 `VITE_API_BASE_URL=http://127.0.0.1:8083` 时出现 `Network Error`
+- 首次并行执行 `lint` 与 Playwright 时，`eslint` 因 `frontend/test-results` 临时目录竞争出现 `ENOENT`
+- 修复动作：
+- 浏览器 E2E 改回默认 Vite 代理链路，使用 `http://127.0.0.1:8081` 作为浏览器真实后端入口
+- Playwright 新增 `control-flow.spec.ts`，并将校验命令改为顺序执行，避免与 `lint` 争抢 `test-results`
+- 若存在隐藏弹窗表单，统一为相关 Modal 增加 `forceRender`，修复测试与运行时表单挂载告警
+- 结论：
+- `BCR-001` 已修复并通过隔离后端实例 `8083` 的真实 round-trip 验证
+- 浏览器主链路已通过：登录、工作空间、流程图、详情、编辑器入口、退出登录
+- 前端已完成工业控制台风格收口；当前仅保留 Vite 构建 chunk size 警告，为非阻塞项

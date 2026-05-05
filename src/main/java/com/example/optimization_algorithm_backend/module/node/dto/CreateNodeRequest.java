@@ -2,6 +2,7 @@ package com.example.optimization_algorithm_backend.module.node.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -32,6 +33,7 @@ public class CreateNodeRequest {
 
     @Schema(description = "精度值", example = "0.9500")
     @DecimalMin(value = "0", message = "precisionValue不能小于0")
+    @DecimalMax(value = "1", message = "precisionValue不能大于1")
     private BigDecimal precisionValue;
 
     @Schema(description = "成本值", example = "30")

@@ -9,7 +9,7 @@ import {
   SettingOutlined,
   ShareAltOutlined,
 } from '@ant-design/icons'
-import { Button, Layout, Menu, Space, Tag, Typography, message } from 'antd'
+import { Button, Layout, Menu, Typography, message } from 'antd'
 import type { MenuProps } from 'antd'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAppShellStore } from '../store/app-shell-store'
@@ -79,7 +79,7 @@ function AppLayout() {
   return (
     <>
       {contextHolder}
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout className="console-layout">
         <Sider
           collapsible
           collapsed={collapsed}
@@ -87,19 +87,19 @@ function AppLayout() {
           width={260}
           collapsedWidth={84}
           theme="light"
-          style={{ borderRight: '1px solid #e5edf5' }}
+          className="console-sider"
         >
-          <div style={{ padding: 20 }}>
-            <Typography.Title
-              level={4}
-              style={{ margin: 0, fontSize: collapsed ? 16 : 20 }}
-            >
-              OAB
-            </Typography.Title>
+          <div className="console-brand">
+            <div className="console-brand-mark">OAB</div>
             {!collapsed ? (
-              <Typography.Text type="secondary">
-                Optimization Console
-              </Typography.Text>
+              <div className="console-brand-copy">
+                <Typography.Text className="console-brand-title">
+                  Control Deck
+                </Typography.Text>
+                <Typography.Text className="console-brand-subtitle">
+                  Industrial optimization console
+                </Typography.Text>
+              </div>
             ) : null}
           </div>
           <Menu
@@ -107,59 +107,67 @@ function AppLayout() {
             selectedKeys={[String(selectedMenuKey)]}
             items={MENU_ITEMS}
             onClick={({ key }) => navigate(key)}
-            style={{ borderInlineEnd: 0 }}
+            className="console-menu"
           />
+          {!collapsed ? (
+            <div className="console-sider-footer">
+              <Typography.Text className="console-sider-footer-label">
+                Session Focus
+              </Typography.Text>
+              <Typography.Text>
+                Workspaces, graph orchestration, task telemetry, and result review.
+              </Typography.Text>
+            </div>
+          ) : null}
         </Sider>
         <Layout>
-          <Header
-            style={{
-              background: '#ffffff',
-              padding: '0 20px',
-              borderBottom: '1px solid #e5edf5',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Space size="middle">
+          <Header className="console-header">
+            <div className="console-header-cluster">
               <Button
                 type="text"
                 icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                 onClick={toggleCollapsed}
                 aria-label="Toggle menu"
               />
-              <div>
+              <div className="console-header-copy">
+                <Typography.Text className="console-header-kicker">
+                  Operations Surface
+                </Typography.Text>
                 <Typography.Text strong>
                   optimization-algorithm-backend
                 </Typography.Text>
-                <br />
                 <Typography.Text type="secondary">
-                  Authenticated workspace
+                  Structured control for graphs, tasks, and optimization output.
                 </Typography.Text>
               </div>
-            </Space>
-            <Space size="middle">
-              <div style={{ textAlign: 'right' }}>
+            </div>
+            <div className="console-header-cluster">
+              <div className="console-status-pill">
+                <span className="console-status-dot" />
+                Live operations
+              </div>
+              <div className="console-user-card">
                 <Typography.Text strong>
                   {userInfo?.nickname || userInfo?.username || '未登录'}
                 </Typography.Text>
-                <br />
                 <Typography.Text type="secondary">
                   {userInfo?.roleCode || 'GUEST'}
                 </Typography.Text>
               </div>
-              <Tag color="blue">Phase 3</Tag>
               <Button
+                type="primary"
                 icon={<LogoutOutlined />}
                 onClick={() => void handleLogout()}
                 loading={isLoggingOut}
               >
                 退出
               </Button>
-            </Space>
+            </div>
           </Header>
-          <Content style={{ padding: 24 }}>
-            <Outlet />
+          <Content className="console-content">
+            <div className="console-page-frame">
+              <Outlet />
+            </div>
           </Content>
         </Layout>
       </Layout>

@@ -201,12 +201,24 @@
 ## I-014 YAML 导出后再次导入失败
 
 - 类型：后端接口契约问题
-- 现状：`P8-T02` 中导出 `graphId=9` 得到 YAML 后，使用 `/api/import/graphs` 原样导入失败，后端返回 `700001 YAML导入校验失败`
-- 实际响应：包含 `PRECISION_INVALID` 和 `CONSTRAINT_TYPE_INVALID`，其中 `ConstraintConditions[0].conditionType` 为 `NORMAL` 但导入校验认为非法
-- 影响：YAML 导出和导入单独功能可接入，但导出文件不能保证 round-trip 导入
+- 现状：`2026-05-05` 已由 Backend Patch Agent 修复并复测通过；在隔离验证实例 `http://127.0.0.1:8083` 上完成“导出 -> 原样导入” round-trip 校验成功
+- 实际修复：
+  - 节点 `precisionValue` 已限制为 `0-1`
+  - 约束 `conditionType` 已统一为 `CONNECT / SAME / FOLLOW / CONTAIN / CALL / PARTICIPATE`
+  - 导出遇到历史非法约束类型时改为明确失败，而不是继续生成不可导入 YAML
+- 影响：YAML 导入导出已恢复契约一致性；前端导入导出功能可继续以当前接口为准
 - 责任 Agent：Backend Issue Agent
-- 下一步：已记录 `BCR-001`；前端已将节点精度输入限制为 `0-1`，后端仍需统一导入/导出枚举映射
-- 状态：`OPEN`
+- 下一步：继续在真实联调中观察是否存在历史脏数据触发“导出明确失败”分支
+- 状态：`RESOLVED`
+
+## I-015 本地浏览器联调依赖 Vite 代理而非固定 `.env.development`
+
+- 类型：环境注意事项
+- 现状：`2026-05-05` 浏览器联调与 Playwright E2E 通过时，前端使用的是 Vite 开发代理到 `http://127.0.0.1:8081`；当前工作区中的 `frontend/.env.development` 仍为用户本地未提交变更，未被本轮覆盖
+- 影响：若浏览器侧直接注入不匹配的 `VITE_API_BASE_URL`，可能绕过代理并触发 `Network Error`
+- 责任 Agent：QA Agent / Documentation Agent
+- 下一步：继续保留 `8081` 作为默认本地联调地址；如需切换到其他端口，优先同步更新启动方式而不是硬编码页面地址
+- 状态：`KNOWN_ENV_NOTE`
 
 ## P8-T02 阻塞检查
 

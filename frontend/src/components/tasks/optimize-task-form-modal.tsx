@@ -52,6 +52,7 @@ function OptimizeTaskFormModal({
     <Modal
       title="提交优化任务"
       open={open}
+      forceRender
       okText="提交"
       cancelText="取消"
       confirmLoading={confirmLoading}

@@ -23,6 +23,7 @@ import com.example.optimization_algorithm_backend.infrastructure.persistence.map
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessNodeMapper;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessPathMapper;
 import com.example.optimization_algorithm_backend.module.common.service.ResourceAccessService;
+import com.example.optimization_algorithm_backend.module.constraint.support.ConstraintTypeSupport;
 import com.example.optimization_algorithm_backend.module.yaml.converter.ProcessMapConverter;
 import com.example.optimization_algorithm_backend.module.yaml.service.GraphYamlService;
 import com.example.optimization_algorithm_backend.module.yaml.vo.GraphImportResponse;
@@ -43,7 +44,6 @@ import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -59,10 +59,7 @@ import java.util.stream.Collectors;
 public class GraphYamlServiceImpl implements GraphYamlService {
 
     private static final String DB_UNAVAILABLE_MESSAGE = "数据库未配置或不可用，YAML导入导出接口暂不可用";
-    private static final Set<String> ALLOWED_FILE_SUFFIX = new HashSet<>(Arrays.asList(".yaml", ".yml"));
-    private static final Set<Constant> ALLOWED_CONSTRAINT_TYPES = new HashSet<>(
-            Arrays.asList(Constant.CONNECT, Constant.SAME, Constant.FOLLOW, Constant.CONTAIN, Constant.CALL, Constant.PARTICIPATE)
-    );
+    private static final Set<String> ALLOWED_FILE_SUFFIX = new HashSet<>(java.util.Arrays.asList(".yaml", ".yml"));
 
     private final ObjectProvider<FlowGraphMapper> flowGraphMapperProvider;
     private final ObjectProvider<EquipmentMapper> equipmentMapperProvider;
@@ -273,7 +270,7 @@ public class GraphYamlServiceImpl implements GraphYamlService {
                         "约束关联节点2不存在: " + condition.getNodeID2()
                 ));
             }
-            if (condition.getConditionType() == null || !ALLOWED_CONSTRAINT_TYPES.contains(condition.getConditionType())) {
+            if (!ConstraintTypeSupport.isAllowed(condition.getConditionType())) {
                 errors.add(new ImportErrorItem(
                         "CONSTRAINT_TYPE_INVALID",
                         "ConstraintConditions[" + i + "].conditionType",

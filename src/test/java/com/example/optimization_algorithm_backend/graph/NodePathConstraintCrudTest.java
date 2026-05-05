@@ -5,6 +5,8 @@ import com.example.optimization_algorithm_backend.infrastructure.persistence.map
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.EquipmentMapper;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessNodeMapper;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.mapper.ProcessPathMapper;
+import com.example.optimization_algorithm_backend.module.constraint.dto.CreateConstraintRequest;
+import com.example.optimization_algorithm_backend.module.constraint.service.impl.ConstraintAppServiceImpl;
 import com.example.optimization_algorithm_backend.module.common.service.ResourceAccessService;
 import com.example.optimization_algorithm_backend.module.graph.service.GraphVersionService;
 import com.example.optimization_algorithm_backend.module.node.dto.CreateNodeRequest;
@@ -12,6 +14,7 @@ import com.example.optimization_algorithm_backend.module.node.dto.UpdateNodeRequ
 import com.example.optimization_algorithm_backend.module.node.service.impl.NodeAppServiceImpl;
 import com.example.optimization_algorithm_backend.module.path.dto.CreatePathRequest;
 import com.example.optimization_algorithm_backend.module.path.service.impl.PathAppServiceImpl;
+import com.example.optimization_algorithm_backend.common.exception.BusinessException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -135,5 +138,53 @@ class NodePathConstraintCrudTest {
         pathAppService.createPath(9L, req);
         verify(processPathMapper).insert(any());
         verify(graphVersionService).increaseVersion(9L);
+    }
+
+    @Test
+    void shouldRejectNodePrecisionGreaterThanOne() {
+        CreateNodeRequest create = new CreateNodeRequest();
+        create.setNodeCode("A1");
+        create.setPrecisionValue(new BigDecimal("1.1"));
+
+        BusinessException ex = Assertions.assertThrows(BusinessException.class,
+                () -> nodeAppService.createNode(9L, create));
+        Assertions.assertTrue(ex.getMessage().contains("precisionValue必须在0到1之间"));
+    }
+
+    @Test
+    void shouldNormalizeAndRejectConstraintType() {
+        ConstraintAppServiceImpl constraintAppService = new ConstraintAppServiceImpl(
+                constraintConditionMapperProvider,
+                processNodeMapperProvider,
+                resourceAccessService,
+                graphVersionService
+        );
+
+        ProcessNodeEntity n1 = new ProcessNodeEntity();
+        n1.setId(1L);
+        n1.setGraphId(9L);
+        ProcessNodeEntity n2 = new ProcessNodeEntity();
+        n2.setId(2L);
+        n2.setGraphId(9L);
+        when(processNodeMapper.selectById(1L)).thenReturn(n1);
+        when(processNodeMapper.selectById(2L)).thenReturn(n2);
+        when(constraintConditionMapper.selectCount(any())).thenReturn(0L);
+
+        CreateConstraintRequest valid = new CreateConstraintRequest();
+        valid.setConditionCode("C1");
+        valid.setConditionType(" follow ");
+        valid.setNodeId1(1L);
+        valid.setNodeId2(2L);
+        constraintAppService.createConstraint(9L, valid);
+        verify(constraintConditionMapper).insert(any());
+
+        CreateConstraintRequest invalid = new CreateConstraintRequest();
+        invalid.setConditionCode("C2");
+        invalid.setConditionType("NORMAL");
+        invalid.setNodeId1(1L);
+        invalid.setNodeId2(2L);
+        BusinessException ex = Assertions.assertThrows(BusinessException.class,
+                () -> constraintAppService.createConstraint(9L, invalid));
+        Assertions.assertTrue(ex.getMessage().contains("conditionType仅支持"));
     }
 }

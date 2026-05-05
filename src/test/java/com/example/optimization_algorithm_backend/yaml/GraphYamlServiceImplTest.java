@@ -1,5 +1,6 @@
 package com.example.optimization_algorithm_backend.yaml;
 
+import com.example.optimization_algorithm_backend.common.exception.BusinessException;
 import com.example.optimization_algorithm_backend.common.exception.ImportValidationException;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.entity.ConstraintConditionEntity;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.entity.EquipmentEntity;
@@ -245,17 +246,88 @@ class GraphYamlServiceImplTest {
         path.setStartNodeId(801L);
         path.setEndNodeId(802L);
 
+        ConstraintConditionEntity constraint = new ConstraintConditionEntity();
+        constraint.setId(1001L);
+        constraint.setGraphId(88L);
+        constraint.setConditionCode("C1");
+        constraint.setConditionType("FOLLOW");
+        constraint.setConditionDescription("A在B前");
+        constraint.setNodeId1(801L);
+        constraint.setNodeId2(802L);
+
         when(equipmentMapper.selectList(any())).thenReturn(Collections.singletonList(equipment));
         when(processNodeMapper.selectList(any())).thenReturn(new ArrayList<ProcessNodeEntity>() {{
             add(n1);
             add(n2);
         }});
         when(processPathMapper.selectList(any())).thenReturn(Collections.singletonList(path));
-        when(constraintConditionMapper.selectList(any())).thenReturn(Collections.emptyList());
+        when(constraintConditionMapper.selectList(any())).thenReturn(Collections.singletonList(constraint));
 
         GraphYamlExportResponse response = graphYamlService.exportGraphYaml(88L);
         Assertions.assertNotNull(response.getYamlContent());
         Assertions.assertTrue(response.getYamlContent().contains("A1"));
         Assertions.assertTrue(response.getYamlContent().contains("B1"));
+        Assertions.assertTrue(response.getYamlContent().contains("conditionType: FOLLOW"));
+    }
+
+    @Test
+    void shouldFailImportWhenPrecisionOrConstraintTypeInvalid() {
+        WorkspaceEntity workspace = new WorkspaceEntity();
+        workspace.setId(1L);
+        when(resourceAccessService.getAccessibleWorkspace(1L)).thenReturn(workspace);
+
+        String yaml = "ProcessNodes:\n" +
+                "  - nodeID: A1\n" +
+                "    nodeDescription: 节点A\n" +
+                "    equipmentName: EQ1\n" +
+                "    time: 10\n" +
+                "    precision: 1.1\n" +
+                "    cost: 20\n" +
+                "  - nodeID: B1\n" +
+                "    nodeDescription: 节点B\n" +
+                "    equipmentName: EQ1\n" +
+                "    time: 12\n" +
+                "    precision: 0.85\n" +
+                "    cost: 22\n" +
+                "Paths:\n" +
+                "  - from: A1\n" +
+                "    to: B1\n" +
+                "ConstraintConditions:\n" +
+                "  - conditionID: C1\n" +
+                "    conditionType: NORMAL\n" +
+                "    conditionDescription: 非法约束\n" +
+                "    nodeID1: A1\n" +
+                "    nodeID2: B1\n" +
+                "Equipments: []\n";
+
+        MockMultipartFile file = new MockMultipartFile("file", "invalid.yaml", "application/x-yaml", yaml.getBytes());
+        ImportValidationException ex = Assertions.assertThrows(ImportValidationException.class,
+                () -> graphYamlService.importGraph(1L, "g1", file));
+        Assertions.assertTrue(ex.getErrorReport().getErrors().stream()
+                .anyMatch(item -> "PRECISION_INVALID".equals(item.getCode())));
+        Assertions.assertTrue(ex.getErrorReport().getErrors().stream()
+                .anyMatch(item -> "CONSTRAINT_TYPE_INVALID".equals(item.getCode())));
+    }
+
+    @Test
+    void shouldFailExportWhenConstraintTypeStoredAsIllegalValue() {
+        FlowGraphEntity graph = new FlowGraphEntity();
+        graph.setId(99L);
+        graph.setName("graph99");
+        when(resourceAccessService.getAccessibleGraph(99L)).thenReturn(graph);
+        when(equipmentMapper.selectList(any())).thenReturn(Collections.emptyList());
+        when(processNodeMapper.selectList(any())).thenReturn(Collections.emptyList());
+        when(processPathMapper.selectList(any())).thenReturn(Collections.emptyList());
+
+        ConstraintConditionEntity constraint = new ConstraintConditionEntity();
+        constraint.setId(2001L);
+        constraint.setGraphId(99L);
+        constraint.setConditionCode("C-legacy");
+        constraint.setConditionType("NORMAL");
+        when(constraintConditionMapper.selectList(any())).thenReturn(Collections.singletonList(constraint));
+
+        BusinessException ex = Assertions.assertThrows(BusinessException.class,
+                () -> graphYamlService.exportGraphYaml(99L));
+        Assertions.assertTrue(ex.getMessage().contains("非法约束类型"));
     }
 }

@@ -128,6 +128,7 @@ function GraphElementFormModal({
     <Modal
       title={kind ? getElementTitle(kind, isEdit) : '图元'}
       open={open}
+      forceRender
       okText={isEdit ? '保存' : '创建'}
       cancelText="取消"
       confirmLoading={confirmLoading}

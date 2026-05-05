@@ -2,8 +2,8 @@
 
 ## 当前阶段
 
-- 阶段名称：`Phase 10 / Documentation`
-- 阶段目标：完成 README、部署文档、演示说明和简历摘要
+- 阶段名称：`Post-Phase 10 / Hardening`
+- 阶段目标：完成后端缺陷修复、浏览器复测与前端工业控制台风格收口
 - 当前状态：`DONE`
 
 ## 已完成任务
@@ -19,12 +19,12 @@
 
 ## 正在执行任务
 
-- 无，`P4-T01` 到 `P10-T01` 已全部完成
+- 无，`P4-T01` 到 `P10-T01` 已全部完成，`BCR-001` 后端补丁与浏览器复测也已完成
 
 ## 下一步任务
 
-- 后端如获授权，可处理 `BCR-001` YAML 导入导出 round-trip 问题
-- 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
+- 当前联调基线：测试账号 `admin / admin123`，浏览器联调默认后端地址 `http://127.0.0.1:8081`
+- 已完成补充目标：`BCR-001` 已修复；浏览器主链路与 Playwright E2E 已通过；前端已完成工业控制台风格优化
 
 ## 近期里程碑
 
@@ -63,3 +63,4 @@
 - `P9-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`、`npm run test:e2e` 全部通过；未发现需要自动修复的新前端缺陷
 - `P9-T02` 检查结果：`git diff --stat`、`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已修复登录页硬编码后端地址提示，Review Gate 通过
 - `P10-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成前端 README、演示流程、部署说明和简历摘要文档
+- `2026-05-05` 补充收口：Backend Patch Agent 已修复 `BCR-001`，并在隔离实例 `8083` 上验证 YAML 导出后原样导入成功；Browser QA Agent 已完成浏览器主链路复测；Frontend Design Agent 已完成 App Shell、Dashboard、Workspaces、Graphs、Tasks、Results、Graph Editor 的工业控制台风格优化

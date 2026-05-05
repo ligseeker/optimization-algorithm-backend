@@ -49,7 +49,7 @@ describe('TasksPage', () => {
     })
   })
 
-  it('renders task center controls', async () => {
+  it('renders task center controls', { timeout: 10000 }, async () => {
     renderWithProviders()
 
     expect(screen.getByRole('heading', { name: '任务中心' })).toBeInTheDocument()

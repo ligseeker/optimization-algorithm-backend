@@ -11,7 +11,7 @@ type PagePlaceholderProps = {
 function PagePlaceholder({
   title,
   description,
-  badge = 'Placeholder',
+  badge = 'Operational Preview',
   notes = [],
 }: PagePlaceholderProps) {
   useDocumentTitle(title)
@@ -30,7 +30,7 @@ function PagePlaceholder({
         </Space>
       </Card>
       {notes.length > 0 ? (
-        <Card title="Next build focus">
+        <Card title="Current focus">
           <Space direction="vertical" size="small">
             {notes.map((note) => (
               <Typography.Text key={note}>{note}</Typography.Text>

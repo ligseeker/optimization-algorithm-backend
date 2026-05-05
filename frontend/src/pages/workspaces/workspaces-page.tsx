@@ -11,9 +11,11 @@ import {
   Alert,
   Button,
   Card,
+  Col,
   Empty,
   Input,
   Modal,
+  Row,
   Space,
   Table,
   Tag,
@@ -236,23 +238,75 @@ function WorkspacesPage() {
       {messageContextHolder}
       {modalContextHolder}
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        <Space align="start" style={{ justifyContent: 'space-between', width: '100%' }}>
-          <div>
-            <Typography.Title level={2} style={{ margin: 0 }}>
-              工作空间
+        <section className="console-hero">
+          <div className="console-hero-copy">
+            <span className="console-kicker">Workspace Control</span>
+            <Typography.Title level={2} className="console-title">
+              工作空间舰队
             </Typography.Title>
-            <Typography.Text type="secondary">
-              管理流程图和优化任务的业务分组。
-            </Typography.Text>
+            <Typography.Paragraph className="console-subtitle">
+              把流程图、任务和结果按业务域拆分到稳定的操作单元里。这里适合做新建、筛选、进入图列表和后续清理。
+            </Typography.Paragraph>
           </div>
-          <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-            新建工作空间
-          </Button>
-        </Space>
+          <div className="console-hero-meta">
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Total</span>
+              <strong>{total}</strong>
+            </div>
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Visible</span>
+              <strong>{rows.length}</strong>
+            </div>
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Enabled</span>
+              <strong>{rows.filter((workspace) => workspace.status === 1).length}</strong>
+            </div>
+          </div>
+        </section>
 
-        <Card>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Records on page</div>
+              <div className="console-stat-value">{rows.length}</div>
+              <div className="console-stat-footnote">当前筛选条件下可见工作空间</div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Enabled groups</div>
+              <div className="console-stat-value">
+                {rows.filter((workspace) => workspace.status === 1).length}
+              </div>
+              <div className="console-stat-footnote">当前页启用中的工作空间</div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Search mode</div>
+              <div className="console-stat-value">{debouncedKeyword ? 'Filtered' : 'All'}</div>
+              <div className="console-stat-footnote">按名称快速缩小操作范围</div>
+            </Card>
+          </Col>
+        </Row>
+
+        <Card
+          className="console-panel console-table"
+          title={
+            <div className="console-panel-title">
+              <span className="console-panel-kicker">Workspace Registry</span>
+              <span>Manage business groups and drill into graph collections</span>
+            </div>
+          }
+          extra={
+            <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+              新建工作空间
+            </Button>
+          }
+        >
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-            <Space wrap>
+            <div className="console-toolbar">
+              <div className="console-toolbar-group">
               <Input
                 allowClear
                 prefix={<SearchOutlined />}
@@ -271,7 +325,8 @@ function WorkspacesPage() {
               >
                 刷新
               </Button>
-            </Space>
+              </div>
+            </div>
 
             {workspaceQuery.isError ? (
               <Alert
@@ -296,7 +351,7 @@ function WorkspacesPage() {
                 emptyText: workspaceQuery.isLoading ? (
                   '加载中...'
                 ) : (
-                  <Empty description="暂无工作空间" />
+                  <Empty className="console-empty" description="暂无工作空间" />
                 ),
               }}
               pagination={{

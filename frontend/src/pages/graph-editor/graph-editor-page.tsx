@@ -5,7 +5,6 @@ import {
   Button,
   Card,
   Col,
-  Descriptions,
   Empty,
   Modal,
   Row,
@@ -302,7 +301,10 @@ function GraphEditorPage() {
   if (graphQuery.isLoading) {
     return (
       <Card>
-        <Spin tip="正在加载流程图详情..." />
+        <Space direction="vertical" align="center" size="middle" style={{ width: '100%' }}>
+          <Spin />
+          <Typography.Text type="secondary">正在加载流程图详情...</Typography.Text>
+        </Space>
       </Card>
     )
   }
@@ -335,39 +337,63 @@ function GraphEditorPage() {
       {messageContextHolder}
       {modalContextHolder}
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Space align="start" style={{ justifyContent: 'space-between', width: '100%' }}>
-        <div>
-          <Typography.Title level={2} style={{ margin: 0 }}>
-            {graph.name}
-          </Typography.Title>
-          <Typography.Text type="secondary">
-            图编辑器基础框架，当前版本：{graph.graphVersion ?? '-'}
-          </Typography.Text>
-        </div>
-        <Space>
-          <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(`/graphs/${graph.id}/detail`)}>
-            返回详情
-          </Button>
-          <Button
-            icon={<ReloadOutlined />}
-            loading={graphQuery.isFetching}
-            onClick={() => void graphQuery.refetch()}
-          >
-            刷新
-          </Button>
-        </Space>
-      </Space>
+        <section className="console-hero">
+          <div className="console-hero-copy">
+            <span className="console-kicker">Graph Editor</span>
+            <Typography.Title level={2} className="console-title">
+              {graph.name}
+            </Typography.Title>
+            <Typography.Paragraph className="console-subtitle">
+              当前版本 {graph.graphVersion ?? '-'}。左侧维护图元资源，中间查看流程结构，右侧读取属性详情。
+            </Typography.Paragraph>
+          </div>
+          <div className="console-hero-meta">
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Status</span>
+              <strong>{graph.graphStatus || '-'}</strong>
+            </div>
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Graph ID</span>
+              <strong>{graph.id}</strong>
+            </div>
+          </div>
+        </section>
 
-      <Card>
-        <Descriptions column={3} size="small">
-          <Descriptions.Item label="graphId">{graph.id}</Descriptions.Item>
-          <Descriptions.Item label="workspaceId">{graph.workspaceId}</Descriptions.Item>
-          <Descriptions.Item label="状态">{graph.graphStatus || '-'}</Descriptions.Item>
-          <Descriptions.Item label="总时间">{graph.totalTime ?? '-'}</Descriptions.Item>
-          <Descriptions.Item label="总精度">{graph.totalPrecision ?? '-'}</Descriptions.Item>
-          <Descriptions.Item label="总成本">{graph.totalCost ?? '-'}</Descriptions.Item>
-        </Descriptions>
-      </Card>
+        <div className="console-toolbar">
+          <div className="console-toolbar-group">
+            <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(`/graphs/${graph.id}/detail`)}>
+              返回详情
+            </Button>
+            <Button
+              icon={<ReloadOutlined />}
+              loading={graphQuery.isFetching}
+              onClick={() => void graphQuery.refetch()}
+            >
+              刷新
+            </Button>
+          </div>
+        </div>
+
+        <Row gutter={[16, 16]}>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Total time</div>
+              <div className="console-stat-value">{graph.totalTime ?? '-'}</div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Total precision</div>
+              <div className="console-stat-value">{graph.totalPrecision ?? '-'}</div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Total cost</div>
+              <div className="console-stat-value">{graph.totalCost ?? '-'}</div>
+            </Card>
+          </Col>
+        </Row>
 
       {nodes.length === 0 ? (
         <Alert
@@ -392,7 +418,11 @@ function GraphEditorPage() {
           </Space>
         </Col>
         <Col xs={24} lg={14}>
-          <Card title="画布" bodyStyle={{ height: 620, padding: 0 }}>
+          <Card
+            className="console-panel console-canvas-card"
+            title="画布"
+            styles={{ body: { height: 620, padding: 0 } }}
+          >
             {nodes.length > 0 ? (
               <ReactFlow
                 nodes={nodes}

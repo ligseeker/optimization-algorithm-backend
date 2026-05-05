@@ -49,6 +49,7 @@ function WorkspaceFormModal({
     <Modal
       title={mode === 'create' ? '新建工作空间' : '编辑工作空间'}
       open={open}
+      forceRender
       okText={mode === 'create' ? '创建' : '保存'}
       cancelText="取消"
       confirmLoading={confirmLoading}

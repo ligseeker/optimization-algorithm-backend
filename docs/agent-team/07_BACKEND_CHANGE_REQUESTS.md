@@ -38,4 +38,20 @@
 - 是否阻塞当前任务：否
 - 是否存在前端 workaround：部分存在。前端已将节点精度表单限制在 `0-1`；但 `conditionType=NORMAL` 与导入校验不一致无法由前端可靠修复，因为导出内容由后端生成。
 - 建议后端修改方案：统一 YAML 导入校验和导出枚举映射；若导入只允许有限枚举，则导出时不要生成非法 `conditionType=NORMAL`；同时在节点创建/更新接口层补充 `precisionValue` 范围校验或明确契约。
-- 是否需要用户授权修改后端：是。当前未授权 Backend Patch Agent 修改 `src/main/**`。
+- 是否需要用户授权修改后端：否。`2026-05-05` 用户已明确授权 Backend Patch Agent 做最小范围修复。
+- 当前状态：`RESOLVED`
+- 实际修复落点：
+  - `CreateNodeRequest` / `UpdateNodeRequest`：补充 `precisionValue <= 1` 校验
+  - `NodeAppServiceImpl`：增加服务层精度范围校验，防止绕过控制器校验进入数据层
+  - `ConstraintAppServiceImpl`：增加 `conditionType` 规范化与白名单校验
+  - `ConstraintTypeSupport`：提取共享约束类型枚举支持，供约束服务与 YAML 导入校验复用
+  - `ProcessMapConverter`：导出遇到历史非法约束类型时明确失败，不再兜底映射为伪语义
+  - `GraphYamlServiceImpl`：导入校验改用共享约束类型规则
+- 验证结果：
+  - `mvn -q -DskipTests compile` 通过
+  - `mvn -q "-Dtest=GraphYamlServiceImplTest,NodePathConstraintCrudTest" test` 通过
+  - 在 `http://127.0.0.1:8083` 上完成真实 API round-trip 复测：
+    - 非法节点精度被拒绝
+    - 约束类型 `" follow "` 被规范化为 `FOLLOW`
+    - 非法约束类型 `NORMAL` 被拒绝
+    - YAML 导出后可被 `/api/import/graphs` 原样重新导入

@@ -37,7 +37,10 @@ function GraphDetailPage() {
   if (graphQuery.isLoading) {
     return (
       <Card>
-        <Spin tip="正在加载流程图详情..." />
+        <Space direction="vertical" align="center" size="middle" style={{ width: '100%' }}>
+          <Spin />
+          <Typography.Text type="secondary">正在加载流程图详情...</Typography.Text>
+        </Space>
       </Card>
     )
   }
@@ -66,22 +69,35 @@ function GraphDetailPage() {
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Space align="start" style={{ justifyContent: 'space-between', width: '100%' }}>
-        <div>
-          <Typography.Title level={2} style={{ margin: 0 }}>
+      <section className="console-hero">
+        <div className="console-hero-copy">
+          <span className="console-kicker">Graph Detail</span>
+          <Typography.Title level={2} className="console-title">
             {graph.name}
           </Typography.Title>
-          <Typography.Text type="secondary">
-            流程图基础信息，编辑器能力将在后续任务中完善。
-          </Typography.Text>
+          <Typography.Paragraph className="console-subtitle">
+            查看基础信息、版本和统计字段，再决定进入图编辑器继续维护。
+          </Typography.Paragraph>
         </div>
-        <Button type="primary" onClick={() => navigate(`/graphs/${graph.id}/editor`)}>
-          进入编辑器
-        </Button>
-      </Space>
+        <div className="console-hero-meta">
+          <div className="console-meta-chip">
+            <span className="console-meta-label">Graph ID</span>
+            <strong>{graph.id}</strong>
+          </div>
+          <div className="console-meta-chip">
+            <span className="console-meta-label">Version</span>
+            <strong>{graph.graphVersion ?? '-'}</strong>
+          </div>
+        </div>
+      </section>
 
-      <Card>
+      <Button type="primary" onClick={() => navigate(`/graphs/${graph.id}/editor`)}>
+        进入编辑器
+      </Button>
+
+      <Card className="console-panel">
         <Descriptions bordered column={2}>
+          <Descriptions.Item label="名称">{graph.name}</Descriptions.Item>
           <Descriptions.Item label="ID">{graph.id}</Descriptions.Item>
           <Descriptions.Item label="工作空间">{graph.workspaceId}</Descriptions.Item>
           <Descriptions.Item label="来源">{graph.sourceType || '-'}</Descriptions.Item>

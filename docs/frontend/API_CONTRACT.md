@@ -204,6 +204,11 @@ type PageResult<T> = {
 - `NodeVO`
   - fields: `id`, `graphId`, `nodeCode`, `nodeName`, `nodeDescription`, `equipmentId`, `timeCost`, `precisionValue`, `costValue`, `sortNo`, `createdAt`, `updatedAt`
 
+运行约束：
+
+- `precisionValue` 必须在 `0` 到 `1` 之间
+- `2026-05-05` 已通过真实后端修复验证：后端 DTO 与服务层都会拒绝 `precisionValue > 1`
+
 ### 4.5 Path
 
 | 方法 | 路径 | 请求类型 | 响应类型 |
@@ -275,6 +280,17 @@ type PageResult<T> = {
 - `ConstraintVO`
   - fields: `id`, `graphId`, `conditionCode`, `conditionType`, `conditionDescription`, `nodeId1`, `nodeId2`, `enabled`, `createdAt`, `updatedAt`
 
+运行约束：
+
+- `conditionType` 仅允许以下枚举值：
+  - `CONNECT`
+  - `SAME`
+  - `FOLLOW`
+  - `CONTAIN`
+  - `CALL`
+  - `PARTICIPATE`
+- 后端会对输入值做 `trim + uppercase` 规范化，再进行合法性校验
+
 ### 4.8 Optimize Task & Result
 
 | 方法 | 路径 | 请求类型 | 响应类型 | 说明 |
@@ -326,6 +342,9 @@ type PageResult<T> = {
 - 导入接口的 `workspaceId` 放在表单字段中，不在路径中
 - 导出接口返回 JSON 包装的文本内容，前端应自行转 Blob 下载
 - 不能按“浏览器直下文件流”假设实现
+- `2026-05-05` 已验证 YAML round-trip 契约：
+  - 导出后的合法 YAML 可以被 `/api/import/graphs` 再次导入
+  - 若图中存在历史非法约束类型，导出接口会明确失败并返回业务错误，而不是伪造或静默修正语义
 
 ## 5. legacy 兼容接口清单
 

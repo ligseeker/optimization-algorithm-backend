@@ -57,6 +57,7 @@ function GraphFormModal({
     <Modal
       title={mode === 'create' ? '新建流程图' : '编辑流程图'}
       open={open}
+      forceRender
       okText={mode === 'create' ? '创建' : '保存'}
       cancelText="取消"
       confirmLoading={confirmLoading}

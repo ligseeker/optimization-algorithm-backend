@@ -75,7 +75,7 @@ describe('GraphsPage', () => {
   it('renders graph management controls', async () => {
     renderWithProviders()
 
-    expect(screen.getByRole('heading', { name: '流程图' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '流程图阵列' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /新建流程图/ })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /导入 YAML/ })).toBeInTheDocument()
     expect(await screen.findByText('暂无流程图')).toBeInTheDocument()

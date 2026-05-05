@@ -64,6 +64,7 @@ public class NodeAppServiceImpl implements NodeAppService {
         String nodeCode = request.getNodeCode().trim();
         ensureNodeCodeUnique(graphId, nodeCode, null);
         validateEquipmentIfPresent(graphId, request.getEquipmentId());
+        validatePrecisionValue(request.getPrecisionValue());
 
         ProcessNodeEntity entity = new ProcessNodeEntity();
         entity.setGraphId(graphId);
@@ -112,6 +113,7 @@ public class NodeAppServiceImpl implements NodeAppService {
             ensureNodeCodeUnique(graphId, nodeCode, nodeId);
         }
         validateEquipmentIfPresent(graphId, request.getEquipmentId());
+        validatePrecisionValue(request.getPrecisionValue());
 
         node.setNodeCode(nodeCode);
         node.setNodeName(request.getNodeName());
@@ -186,6 +188,15 @@ public class NodeAppServiceImpl implements NodeAppService {
         EquipmentEntity equipment = getEquipmentMapper().selectById(equipmentId);
         if (equipment == null || !Objects.equals(equipment.getGraphId(), graphId)) {
             throw new BusinessException(ErrorCode.PARAM_INVALID, "节点关联的设备不存在");
+        }
+    }
+
+    private void validatePrecisionValue(BigDecimal precisionValue) {
+        if (precisionValue == null) {
+            return;
+        }
+        if (precisionValue.compareTo(BigDecimal.ZERO) < 0 || precisionValue.compareTo(BigDecimal.ONE) > 0) {
+            throw new BusinessException(ErrorCode.PARAM_INVALID, "precisionValue必须在0到1之间");
         }
     }
 

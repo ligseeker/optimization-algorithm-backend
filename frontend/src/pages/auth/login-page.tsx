@@ -49,14 +49,15 @@ function LoginPage() {
     <>
       {contextHolder}
       <main className="app-shell">
-        <Card style={{ width: 'min(420px, 100%)' }}>
+        <Card className="app-card" style={{ width: 'min(440px, 100%)' }}>
           <Space direction="vertical" size="large" style={{ width: '100%' }}>
             <div>
-              <Typography.Title level={2} style={{ marginBottom: 8 }}>
+              <Typography.Text className="console-kicker">Secure Access</Typography.Text>
+              <Typography.Title level={2} style={{ marginBottom: 8, marginTop: 8 }}>
                 登录系统
               </Typography.Title>
               <Typography.Text type="secondary">
-                使用已分配账号进入流程优化任务管理系统。
+                使用已分配账号进入流程优化任务管理系统，接入工作空间、图编辑和任务追踪控制台。
               </Typography.Text>
             </div>
 
@@ -90,7 +91,7 @@ function LoginPage() {
                 <Input.Password placeholder="请输入密码" disabled={isSubmitting} />
               </Form.Item>
               <Button type="primary" htmlType="submit" block loading={isSubmitting}>
-                登录
+                进入控制台
               </Button>
             </Form>
           </Space>

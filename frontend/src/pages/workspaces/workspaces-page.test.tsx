@@ -54,7 +54,7 @@ describe('WorkspacesPage', () => {
   it('renders workspace management controls', async () => {
     renderWithProviders()
 
-    expect(screen.getByRole('heading', { name: '工作空间' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: '工作空间舰队' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: /新建工作空间/ })).toBeInTheDocument()
     expect(await screen.findByText('暂无工作空间')).toBeInTheDocument()
   })

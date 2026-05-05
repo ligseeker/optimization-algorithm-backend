@@ -9,8 +9,10 @@ import {
   Alert,
   Button,
   Card,
+  Col,
   Empty,
   InputNumber,
+  Row,
   Select,
   Space,
   Table,
@@ -208,28 +210,84 @@ function TasksPage() {
     <>
       {messageContextHolder}
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        <Space align="start" style={{ justifyContent: 'space-between', width: '100%' }}>
-          <div>
-            <Typography.Title level={2} style={{ margin: 0 }}>
+        <section className="console-hero">
+          <div className="console-hero-copy">
+            <span className="console-kicker">Task Telemetry</span>
+            <Typography.Title level={2} className="console-title">
               任务中心
             </Typography.Title>
-            <Typography.Text type="secondary">
-              提交优化任务，跟踪运行状态，并进入结果页。
-            </Typography.Text>
+            <Typography.Paragraph className="console-subtitle">
+              提交优化任务、轮询运行状态，并把成功结果接到结果分析页。这里更像调度台，而不是单纯的列表页。
+            </Typography.Paragraph>
           </div>
-          <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsCreateOpen(true)}>
-            提交优化任务
-          </Button>
-        </Space>
+          <div className="console-hero-meta">
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Current page</span>
+              <strong>{rows.length}</strong>
+            </div>
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Running</span>
+              <strong>{rows.filter((task) => task.taskStatus === 'RUNNING').length}</strong>
+            </div>
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Failed</span>
+              <strong>{rows.filter((task) => task.taskStatus === 'FAILED').length}</strong>
+            </div>
+          </div>
+        </section>
 
-        <Card>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Queued + running</div>
+              <div className="console-stat-value">
+                {
+                  rows.filter((task) => ['PENDING', 'RUNNING'].includes(task.taskStatus)).length
+                }
+              </div>
+              <div className="console-stat-footnote">需要重点关注的执行中任务</div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Successful</div>
+              <div className="console-stat-value">
+                {rows.filter((task) => task.taskStatus === 'SUCCESS').length}
+              </div>
+              <div className="console-stat-footnote">当前页可直接跳结果页的任务</div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Filter mode</div>
+              <div className="console-stat-value">{taskStatus || 'ALL'}</div>
+              <div className="console-stat-footnote">状态筛选与 ID 过滤联动</div>
+            </Card>
+          </Col>
+        </Row>
+
+        <Card
+          className="console-panel console-table"
+          title={
+            <div className="console-panel-title">
+              <span className="console-panel-kicker">Execution Queue</span>
+              <span>Create tasks, filter queue state, and open detail or result pages</span>
+            </div>
+          }
+          extra={
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsCreateOpen(true)}>
+              提交优化任务
+            </Button>
+          }
+        >
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-            <Space wrap>
+            <div className="console-toolbar">
+              <div className="console-toolbar-group">
               <InputNumber
                 min={1}
                 precision={0}
                 prefix={<SearchOutlined />}
-                placeholder="workspaceId"
+                placeholder="Workspace ID"
                 value={workspaceId}
                 onChange={(value) => {
                   setWorkspaceId(value ?? undefined)
@@ -240,7 +298,7 @@ function TasksPage() {
               <InputNumber
                 min={1}
                 precision={0}
-                placeholder="graphId"
+                placeholder="Graph ID"
                 value={graphId}
                 onChange={(value) => {
                   setGraphId(value ?? undefined)
@@ -264,7 +322,8 @@ function TasksPage() {
               >
                 刷新
               </Button>
-            </Space>
+              </div>
+            </div>
 
             {taskQuery.isError ? (
               <Alert
@@ -286,7 +345,7 @@ function TasksPage() {
                 emptyText: taskQuery.isLoading ? (
                   '加载中...'
                 ) : (
-                  <Empty description="暂无优化任务" />
+                  <Empty className="console-empty" description="暂无优化任务" />
                 ),
               }}
               pagination={{

@@ -11,6 +11,7 @@ import com.example.optimization_algorithm_backend.infrastructure.persistence.ent
 import com.example.optimization_algorithm_backend.infrastructure.persistence.entity.FlowGraphEntity;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.entity.ProcessNodeEntity;
 import com.example.optimization_algorithm_backend.infrastructure.persistence.entity.ProcessPathEntity;
+import com.example.optimization_algorithm_backend.module.constraint.support.ConstraintTypeSupport;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public final class ProcessMapConverter {
@@ -135,8 +135,7 @@ public final class ProcessMapConverter {
 
         ArrayList<ConstraintCondition> constraints = new ArrayList<>();
         for (ConstraintConditionEntity condition : safeConstraints) {
-            String type = condition.getConditionType();
-            Constant constant = parseConstant(type);
+            Constant constant = ConstraintTypeSupport.parseForExport(condition.getConditionType());
             constraints.add(new ConstraintCondition(
                     condition.getConditionCode(),
                     condition.getConditionDescription(),
@@ -167,17 +166,6 @@ public final class ProcessMapConverter {
         processMap.setTotalPrecision(graph.getTotalPrecision() == null ? 0D : graph.getTotalPrecision().doubleValue());
         processMap.setTotalCost(graph.getTotalCost() == null ? 0 : graph.getTotalCost());
         return processMap;
-    }
-
-    private static Constant parseConstant(String value) {
-        if (!StringUtils.hasText(value)) {
-            return Constant.NORMAL;
-        }
-        try {
-            return Constant.valueOf(value.trim().toUpperCase(Locale.ROOT));
-        } catch (Exception ex) {
-            return Constant.NORMAL;
-        }
     }
 
     private static Integer calculateTotalTime(List<MultiNode> nodes) {

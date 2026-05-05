@@ -13,9 +13,11 @@ import {
   Alert,
   Button,
   Card,
+  Col,
   Empty,
   Input,
   Modal,
+  Row,
   Space,
   Table,
   Tag,
@@ -326,27 +328,60 @@ function GraphsPage() {
       {messageContextHolder}
       {modalContextHolder}
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        <Space align="start" style={{ justifyContent: 'space-between', width: '100%' }}>
-          <div>
-            <Typography.Title level={2} style={{ margin: 0 }}>
-              流程图
+        <section className="console-hero">
+          <div className="console-hero-copy">
+            <span className="console-kicker">Graph Registry</span>
+            <Typography.Title level={2} className="console-title">
+              流程图阵列
             </Typography.Title>
-            <Typography.Text type="secondary">
+            <Typography.Paragraph className="console-subtitle">
               {workspaceQuery.data?.name
-                ? `当前工作空间：${workspaceQuery.data.name}`
-                : '管理当前工作空间下的流程图。'}
-            </Typography.Text>
+                ? `当前工作空间：${workspaceQuery.data.name}。从这里进入详情、编辑器、YAML 导入导出和后续优化任务。`
+                : '管理当前工作空间下的流程图，作为 YAML、图元 CRUD 和优化任务的主入口。'}
+            </Typography.Paragraph>
           </div>
-          <Space>
-            <Button onClick={() => navigate('/workspaces')}>返回工作空间</Button>
-            <Button icon={<UploadOutlined />} onClick={() => setIsImportOpen(true)}>
-              导入 YAML
-            </Button>
-            <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-              新建流程图
-            </Button>
-          </Space>
-        </Space>
+          <div className="console-hero-meta">
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Workspace</span>
+              <strong>{workspaceQuery.data?.name || `#${workspaceId}`}</strong>
+            </div>
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Visible graphs</span>
+              <strong>{rows.length}</strong>
+            </div>
+            <div className="console-meta-chip">
+              <span className="console-meta-label">Ready graphs</span>
+              <strong>{rows.filter((graph) => graph.graphStatus === 'READY').length}</strong>
+            </div>
+          </div>
+        </section>
+
+        <Row gutter={[16, 16]}>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Total graphs</div>
+              <div className="console-stat-value">{total}</div>
+              <div className="console-stat-footnote">当前工作空间内累计流程图</div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Draft or ready</div>
+              <div className="console-stat-value">
+                {rows.filter((graph) => graph.graphStatus === 'DRAFT').length}/
+                {rows.filter((graph) => graph.graphStatus === 'READY').length}
+              </div>
+              <div className="console-stat-footnote">草稿与可用图数量对照</div>
+            </Card>
+          </Col>
+          <Col xs={24} md={8}>
+            <Card className="console-stat-card">
+              <div className="console-stat-label">Source modes</div>
+              <div className="console-stat-value">{debouncedKeyword ? 'Filtered' : 'Mixed'}</div>
+              <div className="console-stat-footnote">支持手建图与 YAML 导入图</div>
+            </Card>
+          </Col>
+        </Row>
 
         {workspaceQuery.isError ? (
           <Alert
@@ -357,9 +392,29 @@ function GraphsPage() {
           />
         ) : null}
 
-        <Card>
+        <Card
+          className="console-panel console-table"
+          title={
+            <div className="console-panel-title">
+              <span className="console-panel-kicker">Graph Operations</span>
+              <span>Search, edit, export, and enter the graph editor</span>
+            </div>
+          }
+          extra={
+            <Space>
+              <Button onClick={() => navigate('/workspaces')}>返回工作空间</Button>
+              <Button icon={<UploadOutlined />} onClick={() => setIsImportOpen(true)}>
+                导入 YAML
+              </Button>
+              <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
+                新建流程图
+              </Button>
+            </Space>
+          }
+        >
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-            <Space wrap>
+            <div className="console-toolbar">
+              <div className="console-toolbar-group">
               <Input
                 allowClear
                 prefix={<SearchOutlined />}
@@ -378,7 +433,8 @@ function GraphsPage() {
               >
                 刷新
               </Button>
-            </Space>
+              </div>
+            </div>
 
             {graphQuery.isError ? (
               <Alert
@@ -404,7 +460,7 @@ function GraphsPage() {
                 emptyText: graphQuery.isLoading ? (
                   '加载中...'
                 ) : (
-                  <Empty description="暂无流程图" />
+                  <Empty className="console-empty" description="暂无流程图" />
                 ),
               }}
               pagination={{
