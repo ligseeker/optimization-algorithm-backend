@@ -216,3 +216,12 @@
 - 责任 Agent：QA Agent / Backend Issue Agent
 - 下一步：进入 `P9-T01`，继续运行完整质量门禁
 - 状态：`KNOWN_BACKEND_ISSUE`
+
+## P9-T01 阻塞检查
+
+- 类型：任务检查记录
+- 现状：完整 QA 门禁已通过；本任务未新增阻塞项
+- 影响：可继续执行 `P9-T02`
+- 责任 Agent：QA Agent
+- 下一步：进入 Review Gate
+- 状态：`NO_NEW_ISSUE`

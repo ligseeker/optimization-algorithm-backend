@@ -271,7 +271,7 @@
 - 禁止修改文件范围：`src/main/**`，除非主控升级范围
 - 验收标准：关键缺陷关闭；回归报告完整；三大质量门禁持续通过
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`、`npm run test:e2e`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P9-T02 执行 Review Gate
 
@@ -283,7 +283,7 @@
 - 禁止修改文件范围：未经授权不得修改业务代码
 - 验收标准：形成明确 review 结论；阻塞问题必须关闭或被接受
 - 需要运行的检查命令：`git diff --stat`、`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P10-T01 完成 README、部署文档与演示说明
 
