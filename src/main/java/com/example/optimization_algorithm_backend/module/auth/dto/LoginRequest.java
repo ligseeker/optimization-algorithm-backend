@@ -7,9 +7,9 @@ import javax.validation.constraints.Size;
 
 public class LoginRequest {
 
-    @Schema(description = "登录用户名", example = "admin")
-    @NotBlank(message = "用户名不能为空")
-    @Size(max = 64, message = "用户名长度不能超过64位")
+    @Schema(description = "登录用户名", example = "admin")// 作用：为Swagger文档生成提供字段描述和示例值
+    @NotBlank(message = "用户名不能为空")                  // 作用：使用Java Bean Validation API进行字段验证，确保username字段不为空且不全是空白字符
+    @Size(max = 64, message = "用户名长度不能超过64位")     // 作用：限制username字段的最大长度为64个字符，超过则验证失败
     private String username;
 
     @Schema(description = "登录密码", example = "admin123")
