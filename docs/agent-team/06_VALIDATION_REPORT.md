@@ -357,3 +357,18 @@
 - 失败项：无
 - 修复动作：无
 - 结论：`P9-T01` 完成；完整前端质量门禁通过，未发现需要进入自动修复循环的新缺陷
+
+## Round 23
+
+- 轮次目标：完成 `P9-T02`，执行 Review Gate
+- 修改范围：`frontend/src/pages/auth/login-page.tsx`、`docs/agent-team/**`
+- 执行命令：
+- `git diff --stat`
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- 补充扫描：页面/组件 axios、硬编码后端地址、`any`、legacy 隔离
+- 结果：通过
+- 失败项：Review 发现登录页网络错误提示硬编码 `http://127.0.0.1:8081`
+- 修复动作：改为读取 `import.meta.env.VITE_API_BASE_URL`，并重跑 `typecheck`、`lint`、`build` 通过
+- 结论：`P9-T02` 完成；Review Gate 通过，唯一保留问题为后端 `BCR-001`

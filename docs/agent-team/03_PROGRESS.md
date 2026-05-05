@@ -2,8 +2,8 @@
 
 ## 当前阶段
 
-- 阶段名称：`Phase 9 / QA And Review`
-- 阶段目标：执行完整质量门禁、缺陷修复和 Review Gate
+- 阶段名称：`Phase 10 / Documentation`
+- 阶段目标：完成 README、部署文档、演示说明和简历摘要
 - 当前状态：`IN_PROGRESS`
 
 ## 已完成任务
@@ -19,12 +19,11 @@
 
 ## 正在执行任务
 
-- `P9-T02` 执行 Review Gate
-- 当前执行 Agent：`Review Agent`
+- `P10-T01` 完成 README、部署文档与演示说明
+- 当前执行 Agent：`Documentation Agent`
 
 ## 下一步任务
 
-- `P9-T02` 执行 Review Gate
 - `P10-T01` 完成 README、部署文档与演示说明
 - 当前联调基线：测试账号 `admin / admin123`，默认后端地址 `http://127.0.0.1:8081`
 
@@ -63,3 +62,4 @@
 - `P8-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已完成前端 README、联调指南和根 README 前端启动说明
 - `P8-T02` 检查结果：真实 API 主链路除 YAML round-trip 导入外均通过；`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`、`npm run test:e2e` 全部通过；YAML 导出后再导入失败已记录 `BCR-001`
 - `P9-T01` 检查结果：`npm run typecheck`、`npm run lint`、`npm run build`、`npm run test`、`npm run test:e2e` 全部通过；未发现需要自动修复的新前端缺陷
+- `P9-T02` 检查结果：`git diff --stat`、`npm run typecheck`、`npm run lint`、`npm run build` 全部通过；已修复登录页硬编码后端地址提示，Review Gate 通过

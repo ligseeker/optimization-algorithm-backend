@@ -225,3 +225,12 @@
 - 责任 Agent：QA Agent
 - 下一步：进入 Review Gate
 - 状态：`NO_NEW_ISSUE`
+
+## P9-T02 阻塞检查
+
+- 类型：任务检查记录
+- 现状：Review Gate 已通过；发现的前端硬编码后端地址提示已修复；本任务未新增阻塞项
+- 影响：可继续执行 `P10-T01`
+- 责任 Agent：Review Agent
+- 下一步：进入 README、部署文档与演示说明
+- 状态：`NO_NEW_ISSUE`

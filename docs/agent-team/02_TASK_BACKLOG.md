@@ -283,7 +283,7 @@
 - 禁止修改文件范围：未经授权不得修改业务代码
 - 验收标准：形成明确 review 结论；阻塞问题必须关闭或被接受
 - 需要运行的检查命令：`git diff --stat`、`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`IN_PROGRESS`
+- 状态：`DONE`
 
 ### P10-T01 完成 README、部署文档与演示说明
 
@@ -295,7 +295,7 @@
 - 禁止修改文件范围：`src/main/**`
 - 验收标准：文档覆盖开发环境、部署方式、联调方法、演示流程、已知限制
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ## 推荐执行顺序
 

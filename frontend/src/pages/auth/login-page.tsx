@@ -9,10 +9,12 @@ type LoginFormValues = {
   password: string
 }
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '后端服务'
+
 function resolveLoginErrorMessage(error: unknown) {
   if (isApiError(error)) {
     if (error.code === HTTP_NETWORK_ERROR_CODE) {
-      return '无法连接后端服务，请确认 http://127.0.0.1:8081 已启动。'
+      return `无法连接后端服务，请确认 ${apiBaseUrl} 已启动。`
     }
 
     return error.message || '登录失败，请检查用户名和密码。'
