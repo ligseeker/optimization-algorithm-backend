@@ -91,7 +91,7 @@
 - 禁止修改文件范围：`frontend/src/pages/**`、`src/**`
 - 验收标准：所有请求集中封装；401/鉴权失败能统一清理 token 并触发登录跳转
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`、`npm run build`
-- 状态：`TODO`
+- 状态：`DONE`
 
 ### P2-T02 建立领域类型定义
 
@@ -103,7 +103,7 @@
 - 禁止修改文件范围：`frontend/src/pages/**`、`src/**`
 - 验收标准：类型命名清晰；请求/响应/分页/错误结构完整；与契约文档一致
 - 需要运行的检查命令：`npm run typecheck`、`npm run lint`
-- 状态：`TODO`
+- 状态：`IN_PROGRESS`
 
 ### P2-T03 建立领域 API 模块
 

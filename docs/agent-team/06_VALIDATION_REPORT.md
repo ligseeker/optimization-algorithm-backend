@@ -118,3 +118,16 @@
 - 失败项：首轮 `typecheck` / `build` 因 `dashboard-page.test.tsx` 缺少 `vitest` 全局导入而失败
 - 修复动作：为测试文件显式补充 `describe`、`it`、`expect` 导入后重跑通过
 - 结论：`P1-T02` 完成；前端基础布局、路由、占位页面、状态骨架、测试脚本和测试配置已建立，可进入 API 层开发阶段
+
+## Round 7
+
+- 轮次目标：完成 `P2-T01`，建立 HTTP Client 与鉴权拦截
+- 修改范围：`frontend/src/api/request.ts`、`frontend/src/types/common.ts`、`frontend/src/utils/auth-token.ts`、`frontend/src/utils/api-error.ts`、`docs/agent-team/02_TASK_BACKLOG.md`、`docs/agent-team/03_PROGRESS.md`、`docs/agent-team/06_VALIDATION_REPORT.md`
+- 执行命令：
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- 结果：通过
+- 失败项：无
+- 修复动作：无
+- 结论：`P2-T01` 完成；统一请求客户端已接入 `VITE_API_BASE_URL`、`satoken` 头注入、业务错误标准化和 401 / `401001` 会话清理跳转逻辑
